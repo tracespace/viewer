@@ -1,0 +1,41 @@
+{
+  "name": "tracespace-viewer",
+  "version": "0.0.1",
+  "description": "client-side PCB viewer",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "echo 'script not implemented' && exit 1",
+    "lint": "eslint src/**/*.js test/**/*.js",
+    "test": "babel-node ./node_modules/.bin/isparta cover --root src ./node_modules/.bin/_mocha",
+    "test:watch": "mocha --compilers js:babel/register --reporter dot --watch",
+    "test:browser": "echo 'script not implemented' && exit 1",
+    "test:sauce": "echo 'script not implemented' && exit 1",
+    "posttest": "npm run lint",
+    "deploy": "echo 'script not implemented' && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/viewer.git"
+  },
+  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/viewer/issues"
+  },
+  "homepage": "https://github.com/tracespace/viewer#readme",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "^3.2.0",
+    "eslint": "^1.5.0",
+    "isparta": "^3.0.4",
+    "istanbul": "^0.3.20",
+    "mocha": "^2.3.2",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.11.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3",
+    "react-redux": "^2.1.2",
+    "redux": "^3.0.0"
+  }
+}
