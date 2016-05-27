@@ -1,4 +1,18 @@
 {
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+    "mocha": true
+  },
+  "extends": ["eslint:recommended"],
   "rules": {
     "indent": [2, 2, {"SwitchCase": 1}],
     "quotes": [2, "single", "avoid-escape"],
@@ -25,16 +39,5 @@
     "no-const-assign": 2,
     "prefer-const": 2,
     "no-var": 2
-  },
-  "env": {
-    "es6": true,
-    "node": true,
-    "browser": true,
-    "mocha": true
-  },
-  ecmaFeatures: {
-    "modules": true,
-    "jsx": true
-  },
-  "extends": "eslint:recommended"
+  }
 }
