@@ -15,6 +15,10 @@ app.use(dev(compiler, {publicPath: config.output.publicPath}))
 app.use(hot(compiler, {reload: true}))
 app.use(express.static(config.output.path))
 
-app.listen(PORT, HOST, () => {
-  process.stdout.write('Server listening at http://localhost:8080\n')
+app.listen(PORT, HOST, (error) => {
+  if (error) {
+    throw error
+  }
+
+  process.stdout.write(`Server listening at http://${HOST}:${PORT}\n`)
 })
