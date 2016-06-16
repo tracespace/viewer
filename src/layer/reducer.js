@@ -1,44 +1,70 @@
 // layer reducers
 
+import {combineReducers} from 'redux'
 import omit from 'lodash.omit'
 import without from 'lodash.without'
 
-import {ADD, FINISH_RENDER, SET_VISIBILITY, REMOVE} from './action'
+import * as actionType from './action'
 
-const render = function renderLayerReducer(isRendered, state, action) {
+const add = (state, action) => {
   const id = action.id
+  const filename = action.file.name
+  const isVisible = true
+
+  return Object.assign({}, state, {[id]: {id, filename, isVisible}})
+}
+
+const startRender = (state, action) => {
+  const id = action.id
+  const isRendering = true
+  const layerType = action.layerType
+  const conversionOpts = action.conversionOpts
   const layer = Object.assign(
-    {isVisible: true},
-    state[id],
-    {isRendered},
-    omit(action, 'type', 'meta'))
+    omit(state[id], 'render'),
+    {isRendering, layerType, conversionOpts})
 
   return Object.assign({}, state, {[id]: layer})
 }
 
-const setVisibility = function setLayerVisibilityReducer(state, action) {
+const finishRender = (state, action) => {
   const id = action.id
-  const layer = Object.assign({}, state[id], omit(action, 'type'))
+  const render = action.render
+  const isRendering = false
+  const layer = Object.assign({}, state[id], {render, isRendering})
 
   return Object.assign({}, state, {[id]: layer})
 }
 
-const removeRender = function removeLayerReducer(state, action) {
+const setAttribute = (state, action) => {
+  const id = action.id
+  const layer = Object.assign({}, state[id], omit(action, ['id', 'type', 'meta']))
+
+  return Object.assign({}, state, {[id]: layer})
+}
+
+const removeRender = (state, action) => {
   const id = action.id
 
   return omit(state, id)
 }
 
-export const layersById = function layersByIdReducer(state = {}, action) {
+const layersById = function(state = {}, action) {
   switch (action.type) {
-    case ADD:
-    case FINISH_RENDER:
-      return render((action.type === FINISH_RENDER), state, action)
+    case actionType.ADD:
+      return add(state, action)
 
-    case SET_VISIBILITY:
-      return setVisibility(state, action)
+    case actionType.START_RENDER:
+      return startRender(state, action)
 
-    case REMOVE:
+    case actionType.FINISH_RENDER:
+      return finishRender(state, action)
+
+    case actionType.SET_VISIBILITY:
+    case actionType.SET_TYPE:
+    case actionType.SET_CONVERSION_OPTS:
+      return setAttribute(state, action)
+
+    case actionType.REMOVE:
       return removeRender(state, action)
 
     default:
@@ -46,19 +72,23 @@ export const layersById = function layersByIdReducer(state = {}, action) {
   }
 }
 
-export const layers = function layersReducer(state = [], action) {
+const layers = function(state = [], action) {
   switch (action.type) {
-    case ADD:
+    case actionType.ADD:
       if (state.indexOf(action.id) !== -1) {
         return state
       }
 
       return state.concat(action.id)
 
-    case REMOVE:
+    case actionType.REMOVE:
       return without(state, action.id)
 
     default:
       return state
   }
 }
+
+export default combineReducers({layers, layersById})
+
+export const NAME = 'layer'

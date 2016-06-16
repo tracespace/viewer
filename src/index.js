@@ -5,12 +5,12 @@ import {createApp, element} from 'deku'
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-import app from './app'
-import layer from './layer'
+import main from './app/component/main'
+import layerReducer, {NAME as LAYER_NAME} from './layer/reducer'
 import converter from './converter'
 
 const reducer = combineReducers({
-  [layer.NAME]: combineReducers(layer.reducer)
+  [LAYER_NAME]: layerReducer
 })
 
 const worker = converter.createMiddleware()
@@ -18,19 +18,18 @@ const logger = createLogger()
 const store = createStore(reducer, applyMiddleware(worker, thunk, logger))
 const render = createApp(document.getElementById('mount'), store.dispatch)
 
-let main = app.main
-
-const update = function update() {
-  render(element(main), store.getState())
+const update = function update(component) {
+  requestAnimationFrame(() => render(element(component), store.getState()))
 }
 
-store.subscribe(update)
+store.subscribe(() => update(main))
 
-update()
+update(main)
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    main = require('./app').default.main
-    update()
+  module.hot.accept('./app/component/main', () => {
+    const nextMain = require('./app/component/main').default
+
+    update(nextMain)
   })
 }

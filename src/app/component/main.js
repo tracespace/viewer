@@ -1,25 +1,49 @@
 // main viewer component
 
-import {element} from 'deku'
-import forEach from 'lodash.foreach'
+import {h} from 'deku'
 
-import gerberInput from './gerber-input'
-import layer from '../../layer'
+import {TopNav} from './nav'
+import {GerberInput} from './gerber-input'
+import {ViewSelect} from './view-select'
+import {Layers, StackedLayers} from '../../layer/component'
+import {add as addLayer} from '../../layer/action'
+import {getVisibleLayers} from '../../layer/selector'
+import board from '../../board'
 
 const addGerber = (dispatch) => (event) => {
-  forEach(event.target.files, (file) => dispatch(layer.action.add(file)))
+  const files = Array.prototype.slice.call(event.target.files)
+
+  files.forEach((file) => dispatch(addLayer(file)))
 }
 
-export default function renderMain({context, dispatch}) {
-  const layers = layer.selector.getVisibleLayers(context)
+const switchView = (dispatch) => (view) => () => {
+  console.log(`switch app to ${view}`)
+}
 
-  return element('div', {class: 'main'}, [
-    element(
-      gerberInput,
-      {onChange: addGerber(dispatch)}),
+export default {
+  render({dispatch, context}) {
+    const layers = getVisibleLayers(context)
 
-    element(
-      layer.component.stackedLayers,
-      {layers})
-  ])
+    return h('div', {class: 'bg-light-gray h-100 '}, [
+      h(TopNav, {}),
+
+
+      h('div', {class: 'w-20 h-75 mh3 bg-white fixed right-0'}, [
+        h(ViewSelect, {switchView: switchView(dispatch)}),
+        h(GerberInput, {addGerber: addGerber(dispatch)})
+      ]),
+
+      h(
+        board.component.Board,
+        {layers}),
+
+      h(
+        StackedLayers,
+        {layers}),
+
+      h(
+        Layers,
+        {layers: layers})
+    ])
+  }
 }

@@ -4,24 +4,22 @@ import uniqueId from 'lodash.uniqueid'
 import raf from 'raf'
 
 export default function makeGerberConverterMiddleware(worker) {
-  return () => (next) => (action) => {
-    if (action.meta && action.meta.convert) {
-      const id = uniqueId()
-      const workerAction = Object.assign({}, action, {meta: {id}})
-      const handleMessage = (message) => {
-        const action = message.data
+  return (store) => {
+    worker.addEventListener('message', ({data}) => {
+      raf(() => store.dispatch(JSON.parse(data)))
+    })
 
-        if (action.meta.id === id) {
-          worker.removeEventListener('message', handleMessage)
+    worker.postMessage({})
 
-          return raf(() => next(action))
-        }
+    return (next) => (action) => {
+      if (action.meta && action.meta.convert) {
+        const id = uniqueId()
+        const workerAction = Object.assign({}, action, {meta: {id}})
+
+        worker.postMessage(workerAction)
       }
 
-      worker.addEventListener('message', handleMessage)
-      worker.postMessage(workerAction)
+      return next(action)
     }
-
-    return next(action)
   }
 }
