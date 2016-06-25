@@ -6,10 +6,12 @@ import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
 
 import main from './app/component/main'
+import appReducer, {NAME as APP_NAME} from './app/reducer'
 import layerReducer, {NAME as LAYER_NAME} from './layer/reducer'
 import converter from './converter'
 
 const reducer = combineReducers({
+  [APP_NAME]: appReducer,
   [LAYER_NAME]: layerReducer
 })
 

@@ -4,11 +4,13 @@ import {createSelector} from 'reselect'
 
 import {NAME} from './reducer'
 
-export const getLayers = createSelector(
-  (state) => state[NAME].layers,
-  (state) => state[NAME].layersById,
-  (layers, layersById) => layers.map((id) => layersById[id]))
+export const getLayerIds = (state) => state[NAME].ids
 
-export const getVisibleLayers = createSelector(
+export const getLayers = createSelector(
+  getLayerIds,
+  (state) => state[NAME].byId,
+  (layerIds, layersById) => layerIds.map((id) => layersById[id]))
+
+export const getRenderedLayers = createSelector(
   getLayers,
-  (layers) => layers.filter((layer) => layer.isVisible && layer.render))
+  (layers) => layers.filter((layer) => layer.render))

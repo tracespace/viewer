@@ -2,25 +2,21 @@
 import shortId from 'shortid'
 import {expect} from 'chai'
 
-import layer from '../src/layer'
+import * as action from '../src/layer/action'
+import reducer, {NAME} from '../src/layer/reducer'
+import * as selector from '../src/layer/selector'
 
 describe('layer', function() {
-  const NAME = layer.NAME
-  const action = layer.action
-  const reducer = layer.reducer
-  const selector = layer.selector
-
   it('should have the correct namespace', function() {
     expect(NAME).to.equal('layer')
   })
 
   describe('actions', function() {
-    const action = layer.action
-
     it('should be able to add a layer', function() {
       const file = {}
       const result = action.add(file)
 
+      expect(result).to.have.all.keys('type', 'id', 'file', 'color', 'meta')
       expect(result.type).to.equal(action.ADD)
       expect(shortId.isValid(result.id)).to.be.true
       expect(result.file).to.equal(file)
@@ -56,34 +52,36 @@ describe('layer', function() {
       expect(result).to.eql(expected)
     })
 
-    it('should be able to change the layer visibility', function() {
+    it('should be able to toggle the layer visibility', function() {
       const id = 'some-id'
-      const isVisible = false
-      const result = action.setVisibility(id, isVisible)
-      const expected = {type: action.SET_VISIBILITY, id, isVisible}
+      const result = action.toggleVisibility(id)
+      const expected = {type: action.TOGGLE_VISIBILITY, id}
 
       expect(result).to.eql(expected)
     })
 
-    it('should be able to set the layer type', function() {
-      const id = 'some-id'
-      const layerType = {foo: 'bar'}
-      const result = action.setType(id, layerType)
-      const expected = {type: action.SET_TYPE, id, layerType}
-
-      expect(result).to.eql(expected)
-    })
 
     it('should be able to set the conversion options', function() {
       const id = 'some-id'
+      const layerType = 'tcu'
       const conversionOpts = {foo: 'bar'}
-      const result = action.setConversionOpts(id, conversionOpts)
+      const result = action.setConversionOpts(id, layerType, conversionOpts)
       const expected = {
         type: action.SET_CONVERSION_OPTS,
         id,
+        layerType,
         conversionOpts,
         meta: {convert: true}
       }
+
+      expect(result).to.eql(expected)
+    })
+
+    it('should be able to set the color', function() {
+      const id = 'some-id'
+      const color = 'rgb(100, 150, 50)'
+      const result = action.setColor(id, color)
+      const expected = {type: action.SET_COLOR, id, color}
 
       expect(result).to.eql(expected)
     })
@@ -94,30 +92,30 @@ describe('layer', function() {
 
     it('should return the initial state', function() {
       expect(initialState).to.eql({
-        layers: [],
-        layersById: {}
+        ids: [],
+        byId: {}
       })
     })
 
     it('should handle ADD_LAYER', function() {
-      const add1 = {type: action.ADD, id: 'foo', file: {name: 'hello'}}
-      const add2 = {type: action.ADD, id: 'bar', file: {name: "it's me"}}
+      const add1 = {type: action.ADD, id: 'foo', color: '#000', file: {name: 'hello'}}
+      const add2 = {type: action.ADD, id: 'bar', color: '#000', file: {name: "it's me"}}
       let state = initialState
 
       state = reducer(state, add1)
       expect(state).to.eql({
-        layers: ['foo'],
-        layersById: {
-          foo: {id: 'foo', filename: 'hello', isVisible: true}
+        ids: ['foo'],
+        byId: {
+          foo: {id: 'foo', filename: 'hello', color: '#000', isVisible: true}
         }
       })
 
       state = reducer(state, add2)
       expect(state).to.eql({
-        layers: ['foo', 'bar'],
-        layersById: {
-          foo: {id: 'foo', filename: 'hello', isVisible: true},
-          bar: {id: 'bar', filename: "it's me", isVisible: true}
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', filename: 'hello', color: '#000', isVisible: true},
+          bar: {id: 'bar', filename: "it's me", color: '#000', isVisible: true}
         }
       })
     })
@@ -126,8 +124,8 @@ describe('layer', function() {
       const remove1 = {type: action.REMOVE, id: 'foo'}
       const remove2 = {type: action.REMOVE, id: 'bar'}
       let state = {
-        layers: ['foo', 'bar'],
-        layersById: {
+        ids: ['foo', 'bar'],
+        byId: {
           foo: {id: 'foo'},
           bar: {id: 'bar'}
         }
@@ -135,8 +133,8 @@ describe('layer', function() {
 
       state = reducer(state, remove1)
       expect(state).to.eql({
-        layers: ['bar'],
-        layersById: {
+        ids: ['bar'],
+        byId: {
           'bar': {id: 'bar'}
         }
       })
@@ -154,16 +152,16 @@ describe('layer', function() {
       }
 
       let state = {
-        layers: ['foo'],
-        layersById: {
+        ids: ['foo'],
+        byId: {
           foo: {id: 'foo', render: {}}
         }
       }
 
       state = reducer(state, start)
       expect(state).to.eql({
-        layers: ['foo'],
-        layersById: {
+        ids: ['foo'],
+        byId: {
           foo: {
             id: 'foo',
             isRendering: true,
@@ -177,26 +175,26 @@ describe('layer', function() {
     it('should handle FINISH_RENDER', function() {
       const finish = {type: action.FINISH_RENDER, id: 'foo', render: {foo: 'bar'}}
       let state = {
-        layers: ['foo'],
-        layersById: {
+        ids: ['foo'],
+        byId: {
           foo: {id: 'foo', isRendering: true}
         }
       }
 
       state = reducer(state, finish)
       expect(state).to.eql({
-        layers: ['foo'],
-        layersById: {
+        ids: ['foo'],
+        byId: {
           foo: {id: 'foo', isRendering: false, render: {foo: 'bar'}}
         }
       })
     })
 
-    it('should handle SET_VISIBILITY', function() {
-      const set = {type: action.SET_VISIBILITY, id: 'bar', isVisible: false}
+    it('should handle TOGGLE_VISIBILITY', function() {
+      const set = {type: action.TOGGLE_VISIBILITY, id: 'bar'}
       let state = {
-        layers: ['foo', 'bar'],
-        layersById: {
+        ids: ['foo', 'bar'],
+        byId: {
           foo: {id: 'foo', isVisible: true},
           bar: {id: 'bar', isVisible: true}
         }
@@ -204,30 +202,19 @@ describe('layer', function() {
 
       state = reducer(state, set)
       expect(state).to.eql({
-        layers: ['foo', 'bar'],
-        layersById: {
+        ids: ['foo', 'bar'],
+        byId: {
           foo: {id: 'foo', isVisible: true},
           bar: {id: 'bar', isVisible: false}
         }
       })
-    })
-
-    it('should handle SET_TYPE', function() {
-      const set = {type: action.SET_TYPE, id: 'bar', layerType: {foo: 'bar'}}
-      let state = {
-        layers: ['foo', 'bar'],
-        layersById: {
-          foo: {id: 'foo', layerType: {}},
-          bar: {id: 'bar', layerType: {}}
-        }
-      }
 
       state = reducer(state, set)
       expect(state).to.eql({
-        layers: ['foo', 'bar'],
-        layersById: {
-          foo: {id: 'foo', layerType: {}},
-          bar: {id: 'bar', layerType: {foo: 'bar'}}
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', isVisible: true},
+          bar: {id: 'bar', isVisible: true}
         }
       })
     })
@@ -236,23 +223,44 @@ describe('layer', function() {
       const set = {
         type: action.SET_CONVERSION_OPTS,
         id: 'foo',
+        layerType: 'drl',
         conversionOpts: {baz: 'quux'},
         meta: {convert: true}
       }
       let state = {
-        layers: ['foo', 'bar'],
-        layersById: {
-          foo: {id: 'foo', conversionOpts: {}},
-          bar: {id: 'bar', conversionOpts: {}}
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', layerType: 'tcu', conversionOpts: {}},
+          bar: {id: 'bar', layerType: 'tcu', conversionOpts: {}}
         }
       }
 
       state = reducer(state, set)
       expect(state).to.eql({
-        layers: ['foo', 'bar'],
-        layersById: {
-          foo: {id: 'foo', conversionOpts: {baz: 'quux'}},
-          bar: {id: 'bar', conversionOpts: {}}
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', layerType: 'drl', conversionOpts: {baz: 'quux'}},
+          bar: {id: 'bar', layerType: 'tcu', conversionOpts: {}}
+        }
+      })
+    })
+
+    it('should handle SET_COLOR', function() {
+      const set = action.setColor('foo', '#000')
+      let state = {
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', color: '#fff'},
+          bar: {id: 'bar', color: '#fff'}
+        }
+      }
+
+      state = reducer(state, set)
+      expect(state).to.eql({
+        ids: ['foo', 'bar'],
+        byId: {
+          foo: {id: 'foo', color: '#000'},
+          bar: {id: 'bar', color: '#fff'}
         }
       })
     })
@@ -262,8 +270,8 @@ describe('layer', function() {
     it('should be able to get all layers', function() {
       const state = {
         [NAME]: {
-          layers: ['foo', 'bar', 'baz'],
-          layersById: {
+          ids: ['foo', 'bar', 'baz'],
+          byId: {
             foo: {id: 'foo'},
             bar: {id: 'bar'},
             baz: {id: 'baz'}
@@ -282,20 +290,20 @@ describe('layer', function() {
     it('should be able to get visible layers', function() {
       const state = {
         [NAME]: {
-          layers: ['foo', 'bar', 'baz', 'quux'],
-          layersById: {
+          ids: ['foo', 'bar', 'baz', 'quux'],
+          byId: {
             foo: {id: 'foo', isVisible: true, render: {hello: "it's me"}},
             bar: {id: 'bar', isVisible: true},
             baz: {id: 'baz', isVisible: false},
-            quux: {id: 'quux', isVisible: true, render: {hello: 'from the other side'}}
+            quux: {id: 'quux', isVisible: false, render: {hello: 'from the other side'}}
           }
         }
       }
-      const result = selector.getVisibleLayers(state)
+      const result = selector.getRenderedLayers(state)
 
       expect(result).to.eql([
         {id: 'foo', isVisible: true, render: {hello: "it's me"}},
-        {id: 'quux', isVisible: true, render: {hello: 'from the other side'}}
+        {id: 'quux', isVisible: false, render: {hello: 'from the other side'}}
       ])
     })
   })

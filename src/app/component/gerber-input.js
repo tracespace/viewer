@@ -1,11 +1,11 @@
-// list of layers component
+// gerber file input component
 
-import {element} from 'deku'
+import {h} from 'deku'
 
 export const GerberInput = {
   render({props, path}) {
-    return element('div', {}, [
-      element('input', {
+    return h('div', {class: 'bg-white pt1'}, [
+      h('input', {
         id: path,
         type: 'file',
         multiple: true,
@@ -13,7 +13,10 @@ export const GerberInput = {
         class: 'dn'
       }),
 
-      element('label', {for: path, class: 'db w-auto ma3 tc border-box f3 bg-near-white'}, ['+'])
+      h('label', {
+        for: path,
+        class: 'pointer db w-auto tc border-box f3 bg-brand near-white'
+      }, ['+'])
     ])
   }
 }

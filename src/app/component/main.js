@@ -1,49 +1,85 @@
 // main viewer component
 
 import {h} from 'deku'
+import set from 'lodash.set'
 
 import {TopNav} from './nav'
 import {GerberInput} from './gerber-input'
+import {GerberOutput} from './gerber-output'
 import {ViewSelect} from './view-select'
-import {Layers, StackedLayers} from '../../layer/component'
-import {add as addLayer} from '../../layer/action'
-import {getVisibleLayers} from '../../layer/selector'
-import board from '../../board'
+import {Layers} from '../../layer/component'
+
+import * as appAction from '../action'
+import {getLayerDisplayStates} from '../selector'
+
+import * as layerAction from '../../layer/action'
+import {getLayers, getRenderedLayers} from '../../layer/selector'
+// import board from '../../board'
 
 const addGerber = (dispatch) => (event) => {
-  const files = Array.prototype.slice.call(event.target.files)
+  const files = Array.from(event.target.files)
 
-  files.forEach((file) => dispatch(addLayer(file)))
+  files.forEach((file) => dispatch(layerAction.add(file)))
 }
 
 const switchView = (dispatch) => (view) => () => {
-  console.log(`switch app to ${view}`)
+  // console.log(`switch app to ${view}`)
+}
+
+const toggleVisibility = (dispatch) => (id) => () => {
+  dispatch(layerAction.toggleVisibility(id))
+}
+
+const setType = (dispatch) => (id) => (event) => {
+  dispatch(layerAction.setType(id, event.target.value))
+}
+
+const setConversionOpts = (dispatch) => (id, conversionOpts, path) => (value) => {
+  const opts = Object.assign({}, conversionOpts)
+
+  dispatch(layerAction.setConversionOpts(id, set(opts, path, value)))
+}
+
+const removeGerber = (dispatch) => (id) => () => {
+  dispatch(layerAction.remove(id))
+}
+
+const toggleLayerSettings = (dispatch) => (id) => () => {
+  dispatch(appAction.toggleLayerSettings(id))
 }
 
 export default {
   render({dispatch, context}) {
-    const layers = getVisibleLayers(context)
+    const layers = getLayers(context)
+    const renderedLayers = getRenderedLayers(context)
+    const layerDisplayStates = getLayerDisplayStates(context)
 
-    return h('div', {class: 'bg-light-gray h-100 '}, [
+    return h('div', {class: 'h-100 '}, [
       h(TopNav, {}),
 
-
-      h('div', {class: 'w-20 h-75 mh3 bg-white fixed right-0'}, [
+      h('div', {class: 'w-25 app-ht mh3 fixed right-0 max-app-ht h-100 z-1'}, [
         h(ViewSelect, {switchView: switchView(dispatch)}),
+        h(GerberOutput, {
+          layers,
+          renderedLayers,
+          layerDisplayStates,
+          toggleVisibility: toggleVisibility(dispatch),
+          remove: removeGerber(dispatch),
+          setType: setType(dispatch),
+          setConversionOpts: setConversionOpts(dispatch),
+          toggleSettings: toggleLayerSettings(dispatch)
+        }),
         h(GerberInput, {addGerber: addGerber(dispatch)})
       ]),
 
-      h(
-        board.component.Board,
-        {layers}),
-
-      h(
-        StackedLayers,
-        {layers}),
-
-      h(
-        Layers,
-        {layers: layers})
+      h('div', {class: 'absolute absolute--fill overflow-hidden z-back bg-light-gray'}, [
+        h('div', {
+          class: 'w-100 h-100',
+          style: 'transform: scale(1)'
+        }, [
+          h(Layers, {layers: renderedLayers})
+        ])
+      ])
     ])
   }
 }

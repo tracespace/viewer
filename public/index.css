@@ -1,0 +1,87 @@
+body {
+  font-family: 'Open Sans', Helvetica, sans-serif;
+}
+
+.brand {
+  color: #3cc;
+}
+
+.bg-brand {
+  background-color: #3cc;
+}
+
+.striped--brand-light:nth-child(odd) {
+  background-color: rgba(51, 204, 204, 0.1);
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-back {
+  z-index: -1;
+}
+
+.all-center {
+  left: 37.5%;
+  top: calc(50% + 2rem);
+  transform: translate(-50%, -50%);
+}
+
+.btn:hover {
+  color: gray;
+}
+
+.btn:active {
+  color: gray;
+}
+
+.btn[disabled] {
+  backgound-color: grey;
+  cursor: default;
+}
+
+.layer-opacity {
+  opacity: 0.5;
+}
+
+.fx {
+  display: flex;
+}
+
+.fx-jc-sa {
+  justify-content: space-around;
+}
+
+.fx-ai-c {
+  align-items: center;
+}
+
+.fx-wrap {
+  flex-wrap: wrap;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.app-ht {
+  height: calc(100% - 6rem);
+}
+
+.max-app-ht {
+  max-height: calc(100% - 6rem);
+}
+
+.max-h5 {
+  max-height: 16rem;
+}
+
+.collapsible {
+  transition: max-height 0.3s linear;
+  overflow: hidden;
+}
+
+.is-collapsed {
+  max-height: 0;
+}

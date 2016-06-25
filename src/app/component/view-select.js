@@ -4,14 +4,14 @@ import {h} from 'deku'
 
 export const ViewSelect = {
   render({props}) {
-    return h('div', {}, [
+    return h('div', {class: 'bg-white'}, [
       h('button', {
-        class: 'bn w-50 f3 bg-near-white',
+        class: 'pointer btn bn w-50 f5 bg-white',
         onClick: props.switchView('layers')
       }, ['layers']),
 
       h('button', {
-        class: 'bn w-50 f3 bg-white',
+        class: 'pointer btn bn w-50 f5 bg-near-white',
         onClick: props.switchView('board')
       }, ['board'])
     ])
