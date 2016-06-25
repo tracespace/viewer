@@ -8,7 +8,17 @@ import * as appActionType from './action'
 
 export const NAME = 'app'
 
-const INITIAL_STATE = {layers: {}}
+const INITIAL_STATE = {view: 'layers', layers: {}}
+
+const view = function(state = INITIAL_STATE.view, action) {
+  switch (action.type) {
+    case appActionType.SWITCH_VIEW:
+      return action.view
+
+    default:
+      return state
+  }
+}
 
 const layers = function(state = INITIAL_STATE.layers, action) {
   switch (action.type) {
@@ -30,4 +40,4 @@ const layers = function(state = INITIAL_STATE.layers, action) {
   }
 }
 
-export default combineReducers({layers})
+export default combineReducers({view, layers})

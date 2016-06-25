@@ -7,14 +7,13 @@ import {TopNav} from './nav'
 import {GerberInput} from './gerber-input'
 import {GerberOutput} from './gerber-output'
 import {ViewSelect} from './view-select'
-import {Layers} from '../../layer/component'
+import {View} from './view'
 
 import * as appAction from '../action'
-import {getLayerDisplayStates} from '../selector'
+import {getSelectedView, getLayerDisplayStates} from '../selector'
 
 import * as layerAction from '../../layer/action'
 import {getLayers, getRenderedLayers} from '../../layer/selector'
-// import board from '../../board'
 
 const addGerber = (dispatch) => (event) => {
   const files = Array.from(event.target.files)
@@ -23,7 +22,7 @@ const addGerber = (dispatch) => (event) => {
 }
 
 const switchView = (dispatch) => (view) => () => {
-  // console.log(`switch app to ${view}`)
+  dispatch(appAction.switchView(view))
 }
 
 const toggleVisibility = (dispatch) => (id) => () => {
@@ -53,12 +52,13 @@ export default {
     const layers = getLayers(context)
     const renderedLayers = getRenderedLayers(context)
     const layerDisplayStates = getLayerDisplayStates(context)
+    const selectedView = getSelectedView(context)
 
     return h('div', {class: 'h-100 '}, [
       h(TopNav, {}),
 
       h('div', {class: 'w-25 app-ht mh3 fixed right-0 max-app-ht h-100 z-1'}, [
-        h(ViewSelect, {switchView: switchView(dispatch)}),
+        h(ViewSelect, {view: selectedView, switchView: switchView(dispatch)}),
         h(GerberOutput, {
           layers,
           renderedLayers,
@@ -73,12 +73,7 @@ export default {
       ]),
 
       h('div', {class: 'absolute absolute--fill overflow-hidden z-back bg-light-gray'}, [
-        h('div', {
-          class: 'w-100 h-100',
-          style: 'transform: scale(1)'
-        }, [
-          h(Layers, {layers: renderedLayers})
-        ])
+        h(View, {view: selectedView, layers: renderedLayers})
       ])
     ])
   }

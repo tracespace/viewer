@@ -1,19 +1,25 @@
 // app view select
 
 import {h} from 'deku'
+import classnames from 'classnames'
+
+const renderViewSelectButton = function({props}) {
+  const {name, view, switchView} = props
+  const bg = (name === view) ? 'bg-white' : 'bg-near-white'
+
+  return h('button', {
+    class: classnames('pointer btn bn w-50 f5', bg),
+    onClick: switchView(name)
+  }, [name])
+}
 
 export const ViewSelect = {
   render({props}) {
-    return h('div', {class: 'bg-white'}, [
-      h('button', {
-        class: 'pointer btn bn w-50 f5 bg-white',
-        onClick: props.switchView('layers')
-      }, ['layers']),
+    const {view, switchView} = props
 
-      h('button', {
-        class: 'pointer btn bn w-50 f5 bg-near-white',
-        onClick: props.switchView('board')
-      }, ['board'])
+    return h('div', {class: 'bg-white'}, [
+      h(renderViewSelectButton, {name: 'layers', view, switchView}),
+      h(renderViewSelectButton, {name: 'board', view, switchView})
     ])
   }
 }
