@@ -9,8 +9,6 @@ const createMiddleware = function createWorkerMiddleware() {
   const worker = new ConverterWorker()
   const middle = middleware(worker)
 
-  worker.addEventListener('error', console.error)
-
   return middle
 }
 

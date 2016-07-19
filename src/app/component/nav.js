@@ -5,7 +5,7 @@ import {h} from 'deku'
 export const TopNav = {
   render() {
     return h('header', {
-      class: 'mb3 w-100 bg-white gray fx fx-ai-c'
+      class: 'mb3 w-100 bg-white gray fx fx-ai-c fixed z-1'
     }, [
       h('img', {src: '/logo.svg', class: 'h3 w3 pa2 border-box'}),
       h('span', {class: 'mr-auto'}, [

@@ -22,10 +22,25 @@ body {
   z-index: -1;
 }
 
-.all-center {
-  left: 37.5%;
-  top: calc(50% + 2rem);
+.center-vertical {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.transform-center {
   transform: translate(-50%, -50%);
+}
+
+.smooth-transform {
+  transition: transform 100ms;
+}
+
+.left-50 {
+  left: 50%;
+}
+
+.top-50 {
+  top: 50%;
 }
 
 .btn:hover {
@@ -84,4 +99,25 @@ body {
 
 .is-collapsed {
   max-height: 0;
+}
+
+.h0 {
+  height: 0
+}
+
+.w-47-5 {
+  width: 47.5%;
+}
+
+.grab {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.grab:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }

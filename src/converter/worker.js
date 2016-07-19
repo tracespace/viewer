@@ -1,7 +1,6 @@
 // gerber converter webworker
 
 import {element} from 'deku'
-import omit from 'lodash.omit'
 import gerberToSvg, {clone} from 'gerber-to-svg'
 import whatsThatGerber from 'whats-that-gerber'
 import fileReader from 'filereader-stream'
@@ -72,7 +71,7 @@ const reRenderLayer = function(action) {
   const options = gerberToSvgOptions(id, conversionOpts)
   const render = gerberToSvg(gerberFile, options, function(error) {
     const finishLayerRender = Object.assign(
-      finishRender(id, conversionOpts, (render), error),
+      finishRender(id, conversionOpts, clone(render), error),
       {meta})
 
     dispatch(finishLayerRender)

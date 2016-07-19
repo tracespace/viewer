@@ -51,9 +51,10 @@
     "randomcolor": "^0.4.4",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0",
+    "redux-throttle": "^0.1.1",
     "reselect": "^2.5.1",
     "shortid": "^2.2.6",
+    "viewbox": "^1.0.0",
     "whats-that-gerber": "^2.0.1"
   }
 }

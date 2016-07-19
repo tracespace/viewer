@@ -1,9 +1,9 @@
 // tracespace viewer
 
 import {createStore, combineReducers, applyMiddleware} from 'redux'
-import {createApp, element} from 'deku'
+import {createApp, h} from 'deku'
 import createLogger from 'redux-logger'
-import thunk from 'redux-thunk'
+import throttle from 'redux-throttle'
 
 import main from './app/component/main'
 import appReducer, {NAME as APP_NAME} from './app/reducer'
@@ -16,21 +16,33 @@ const reducer = combineReducers({
 })
 
 const worker = converter.createMiddleware()
+const throttler = throttle(100, {leading: false, trailing: true})
 const logger = createLogger()
-const store = createStore(reducer, applyMiddleware(worker, thunk, logger))
+const store = createStore(reducer, applyMiddleware(worker, throttler, logger))
 const render = createApp(document.getElementById('mount'), store.dispatch)
 
+let nextMain = main
+let isUpdating = false
+let componentToUpdate
 const update = function update(component) {
-  requestAnimationFrame(() => render(element(component), store.getState()))
+  if (!isUpdating) {
+    isUpdating = true
+    componentToUpdate = component
+
+    requestAnimationFrame(() => {
+      isUpdating = false
+      render(h(componentToUpdate), store.getState())
+    })
+  }
 }
 
-store.subscribe(() => update(main))
+store.subscribe(() => update(nextMain))
 
-update(main)
+update(nextMain)
 
 if (module.hot) {
   module.hot.accept('./app/component/main', () => {
-    const nextMain = require('./app/component/main').default
+    nextMain = require('./app/component/main').default
 
     update(nextMain)
   })

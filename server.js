@@ -5,8 +5,8 @@ const express = require('express')
 
 const config = require('./webpack.config.js')
 
-const HOST = 'localhost'
-const PORT = 8080
+const HOST = process.env.DEV_HOST || 'localhost'
+const PORT = process.env.DEV_PORT || 8080
 
 const compiler = webpack(config)
 const app = express()

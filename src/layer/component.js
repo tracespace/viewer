@@ -4,7 +4,10 @@ import {h} from 'deku'
 import classnames from 'classnames'
 import {getAllTypes, getFullName} from 'whats-that-gerber'
 import renderLayer from 'gerber-to-svg/lib/render'
-import viewBox from 'pcb-stackup-core/lib/view-box'
+import wrapLayer from 'pcb-stackup-core/lib/wrap-layer'
+
+const ALL_LAYER_TYPES = getAllTypes()
+const ALL_LAYER_NAMES = ALL_LAYER_TYPES.map((type) => getFullName(type))
 
 const Layer = {
   render({props}) {
@@ -21,30 +24,28 @@ const Layer = {
 
 export const LayerDefs = {
   render({props}) {
-    const defs = props.layers.reduce((result, layer) => {
-      const render = layer.render || {}
-      const defsChildren = render.defs || []
-      const groupChildren = render.layer || []
+    const {renders, units} = props
 
-      const resultWithDefs = result.concat(defsChildren)
+    const switchUnitsScale = units === 'in'
+      ? (1 / 25.4)
+      : 25.4
 
-      resultWithDefs.push(h('g', {id: layer.id}, groupChildren))
+    const children = renders.map((render) => {
+      const defs = render.defs
+      const scale = render.units === units
+        ? 1
+        : switchUnitsScale
 
-      return resultWithDefs
+      return defs.concat(wrapLayer(h, render.id, render, scale))
     }, [])
 
-    return h('defs', {}, defs)
+    return h('defs', {}, children)
   }
 }
 
 export const Layers = {
   render({props, path}) {
-    const layers = props.layers
-
-    const totalViewbox = layers.reduce((result, model) => {
-      return viewBox.add(result, model.render.viewBox)
-    }, viewBox.new())
-
+    const {layers, totalViewbox} = props
     const offset = totalViewbox.length
       ? totalViewbox
       : [0, 0, 0, 0]
@@ -60,19 +61,15 @@ export const Layers = {
       units: '%'
     }
 
-    const padding = (offset[2] !== 0)
+    const padding = (offset[2])
       ? `${offset[3] / offset[2] * 100}%`
       : 0
 
     return h('div', {
-      class: 'absolute all-center w-60'
+      class: 'relative w-100 h0',
+      style: `padding-bottom: ${padding}`
     }, [
-      h('div', {
-        class: 'relative',
-        style: `width: 100%; height: 0; padding-bottom: ${padding}`
-      }, [
-        renderLayer(model, {id: path, class: 'absolute'}, h, false)
-      ])
+      renderLayer(model, {id: path, class: 'absolute'}, h, false)
     ])
   }
 }
@@ -116,8 +113,6 @@ const PlacesSelect = {
       key,
       value,
       onChange: (event) => {
-        console.log(`changing ${key} to ${Number(event.target.value)}`)
-        
         return onChange(key)(Number(event.target.value))
       }
     })
@@ -155,8 +150,8 @@ const LayerSettingsItem = {
     const layerSelect = h(Select, {
       name: 'layer type',
       value: layerType,
-      options: getAllTypes(),
-      contents: getAllTypes().map((type) => getFullName(type)),
+      options: ALL_LAYER_TYPES,
+      contents: ALL_LAYER_NAMES,
       onChange: setType
     })
 
