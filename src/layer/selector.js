@@ -1,11 +1,12 @@
 // layer selectors
+'use strict'
 
-import {createSelector} from 'reselect'
-import viewbox from 'viewbox'
+const {createSelector} = require('reselect')
+const viewbox = require('viewbox')
 
-import {NAME} from './reducer'
+const {NAME} = require('./reducer')
 
-export const getLayerIds = (state) => state[NAME].ids
+const getLayerIds = (state) => state[NAME].ids
 
 const getScale = function(collectionUnits, targetUnits) {
   const scale = collectionUnits === 'in'
@@ -19,43 +20,37 @@ const getScale = function(collectionUnits, targetUnits) {
   return result
 }
 
-export const getLayers = createSelector(
+const getLayers = createSelector(
   getLayerIds,
   (state) => state[NAME].byId,
   (layerIds, layersById) => layerIds.map((id) => layersById[id]))
 
-export const getRenderedLayers = createSelector(
+const getRenderedLayers = createSelector(
   getLayers,
   (layers) => layers.filter((layer) => layer.render))
 
-export const getRenders = createSelector(
+const getRenders = createSelector(
   getRenderedLayers,
   (layers) => layers.map((layer) => Object.assign({id: layer.id}, layer.render)))
 
-export const getUnits = createSelector(
+const getUnits = createSelector(
   getRenders,
   (renders) => {
-    const unitsCount = renders.reduce((result, render) => {
+    return renders.reduce((result, render) => {
       const units = render.units
 
-      if (units === 'in') {
-        result.in++
-      }
-      else if (units === 'mm') {
-        result.mm++
+      result[units] = (result[units] || 0) + 1
+
+      if (result[units] > result.max) {
+        result.max = result[units]
+        result.units = units
       }
 
       return result
-    }, {in: 0, mm: 0})
-
-    const units = unitsCount.in > unitsCount.mm
-      ? 'in'
-      : 'mm'
-
-    return units
+    }, {max: 0, units: ''}).units
   })
 
-export const getViewboxes = createSelector(
+const getViewboxes = createSelector(
   getRenders,
   getUnits,
   (renders, units) => renders.map((render) => {
@@ -64,6 +59,15 @@ export const getViewboxes = createSelector(
     return viewbox.scale(renderBox, getScale(units, renderUnits))
   }))
 
-export const getTotalViewbox = createSelector(
+const getTotalViewbox = createSelector(
   getViewboxes,
   (boxes) => boxes.reduce(viewbox.add, viewbox.create()))
+
+module.exports = {
+  getLayers,
+  getRenderedLayers,
+  getRenders,
+  getUnits,
+  getViewboxes,
+  getTotalViewbox
+}

@@ -1,14 +1,15 @@
 // layer reducers
+'use strict'
 
-import omit from 'lodash.omit'
-import without from 'lodash.without'
-import {combineReducers} from 'redux'
+const omit = require('lodash.omit')
+const without = require('lodash.without')
+const {combineReducers} = require('redux')
 
-import * as actionType from './action'
+const actionType = require('./action')
 
 const INITIAL_STATE = {ids: [], byId: {}}
 
-export const NAME = 'layer'
+const NAME = 'layer'
 
 const add = (state, {id, file, color}) => {
   const filename = file.name
@@ -19,7 +20,7 @@ const add = (state, {id, file, color}) => {
 
 const startRender = (state, action) => {
   const {id} = action
-  const layerType = action.layerType || state[id].render.layerType
+  const layerType = action.layerType || state[id].layerType
   const isRendering = true
   const layer = Object.assign(omit(state[id], 'render'), {isRendering, layerType})
 
@@ -41,8 +42,8 @@ const toggleVisibility = (state, {id}) => {
   return Object.assign({}, state, {[id]: layer})
 }
 
-const setConversionOpts = (state, {id, layerType, conversionOpts}) => {
-  const layer = Object.assign({}, state[id], {layerType, conversionOpts})
+const setConversionOpts = (state, {id, conversionOpts}) => {
+  const layer = Object.assign({}, state[id], {conversionOpts})
 
   return Object.assign({}, state, {[id]: layer})
 }
@@ -113,4 +114,5 @@ const ids = function(state = INITIAL_STATE.ids, action) {
   }
 }
 
-export default combineReducers({ids, byId})
+module.exports = combineReducers({ids, byId})
+module.exports.NAME = NAME

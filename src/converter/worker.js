@@ -1,12 +1,14 @@
 // gerber converter webworker
+'use strict'
 
-import {element} from 'deku'
-import gerberToSvg, {clone} from 'gerber-to-svg'
-import whatsThatGerber from 'whats-that-gerber'
-import fileReader from 'filereader-stream'
-import {PassThrough, Writable} from 'readable-stream'
+const {element} = require('deku')
+const gerberToSvg = require('gerber-to-svg')
+const whatsThatGerber = require('whats-that-gerber')
+const fileReader = require('filereader-stream')
+const {PassThrough, Writable} = require('readable-stream')
+const clone = gerberToSvg.clone
 
-import {ADD, SET_CONVERSION_OPTS, startRender, finishRender} from '../layer/action'
+const {ADD, SET_CONVERSION_OPTS, startRender, finishRender} = require('../layer/action')
 
 const gerberCache = {}
 

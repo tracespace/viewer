@@ -1,11 +1,12 @@
+'use strict'
 
-import {h} from 'deku'
-import pcbStackupCore from 'pcb-stackup-core'
-import whatsThatGerber from 'whats-that-gerber'
-import shortId from 'shortid'
+const {h} = require('deku')
+const pcbStackupCore = require('pcb-stackup-core')
+const whatsThatGerber = require('whats-that-gerber')
+const shortId = require('shortid')
 
-export const Board = {
-  render({props}) {
+module.exports = {
+  Board: function renderBoard({props}) {
     const layers = props.layers.map((layer) => {
       return {
         type: whatsThatGerber(layer.filename),

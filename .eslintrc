@@ -1,16 +1,13 @@
 {
   "parserOptions": {
-    "sourceType": "module",
+    "sourceType": "script",
     "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "jsx": true
-    },
+    "ecmaFeatures": {}
   },
   "env": {
     "es6": true,
     "node": true,
-    "browser": true,
-    "mocha": true
+    "browser": true
   },
   "extends": ["eslint:recommended"],
   "rules": {
@@ -22,7 +19,7 @@
     "no-extend-native": 2,
     "space-before-function-paren": [2, "never"],
     "curly": [2, "all"],
-    "strict": [2, "global"],
+    "strict": [2, "safe"],
     "space-unary-ops": [2, {"words": true, "nonwords": false}],
     "space-infix-ops": [2, {"int32Hint": false}],
     "no-inline-comments": 2,

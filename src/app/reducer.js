@@ -1,12 +1,13 @@
 // app reducer
+'use strict'
 
-import omit from 'lodash.omit'
-import {combineReducers} from 'redux'
+const omit = require('lodash.omit')
+const {combineReducers} = require('redux')
 
-import * as layerActionType from '../layer/action'
-import * as appActionType from './action'
+const layerActionType = require('../layer/action')
+const appActionType = require('./action')
 
-export const NAME = 'app'
+const NAME = 'app'
 
 const INITIAL_STATE = {
   view: 'layers',
@@ -126,4 +127,5 @@ const layers = function(state = INITIAL_STATE.layers, action) {
   }
 }
 
-export default combineReducers({view, panZoom, layers})
+module.exports = combineReducers({view, panZoom, layers})
+module.exports.NAME = NAME

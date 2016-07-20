@@ -1,11 +1,11 @@
 // little color picker
+'use strict'
 
-import {h} from 'deku'
+const {h} = require('deku')
 
-export const ColorPicker = {
-  render({props}) {
-    const style = `background-color: ${props.color}`
-
-    return h('button', {style, class: 'bn'}, [])
-  }
+module.exports = function renderColorPicker({props}) {
+  return h('button', {
+    style: `background-color: ${props.color}`,
+    class: 'bn'
+  })
 }

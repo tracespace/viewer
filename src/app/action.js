@@ -1,32 +1,35 @@
 // app actions
+'use strict'
 
-export const SWITCH_VIEW = 'app:SWITCH_VIEW'
-export const ZOOM_VIEW = 'app:ZOOM_VIEW'
-export const PAN_VIEW = 'app:PAN_VIEW'
-export const START_PAN = 'app:START_PAN'
-export const END_PAN = 'app:END_PAN'
-export const TOGGLE_LAYER_SETTINGS = 'app:TOGGLE_LAYER_SETTINGS'
+const action = module.exports = {
+  SWITCH_VIEW: 'app:SWITCH_VIEW',
+  ZOOM_VIEW: 'app:ZOOM_VIEW',
+  PAN_VIEW: 'app:PAN_VIEW',
+  START_PAN: 'app:START_PAN',
+  END_PAN: 'app:END_PAN',
+  TOGGLE_LAYER_SETTINGS: 'app:TOGGLE_LAYER_SETTINGS',
 
-export const switchView = function(view) {
-  return {type: SWITCH_VIEW, view}
-}
+  switchView(view) {
+    return {type: action.SWITCH_VIEW, view}
+  },
 
-export const zoomView = function(view, zoom, zoomX, zoomY) {
-  return {type: ZOOM_VIEW, view, zoom, zoomX, zoomY, meta: {throttle: true}}
-}
+  zoomView(view, zoom, zoomX, zoomY) {
+    return {type: action.ZOOM_VIEW, view, zoom, zoomX, zoomY, meta: {throttle: true}}
+  },
 
-export const panView = function(view, panX, panY) {
-  return {type: PAN_VIEW, view, panX, panY, meta: {throttle: true}}
-}
+  panView(view, panX, panY) {
+    return {type: action.PAN_VIEW, view, panX, panY, meta: {throttle: true}}
+  },
 
-export const startPan = function(view, startX, startY) {
-  return {type: START_PAN, view, startX, startY}
-}
+  startPan(view, startX, startY) {
+    return {type: action.START_PAN, view, startX, startY}
+  },
 
-export const endPan = function(view) {
-  return {type: END_PAN, view}
-}
+  endPan(view) {
+    return {type: action.END_PAN, view}
+  },
 
-export const toggleLayerSettings = function(id) {
-  return {type: TOGGLE_LAYER_SETTINGS, id}
+  toggleLayerSettings(id) {
+    return {type: action.TOGGLE_LAYER_SETTINGS, id}
+  }
 }

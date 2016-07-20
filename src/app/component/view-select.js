@@ -1,7 +1,8 @@
 // app view select
+'use strict'
 
-import {h} from 'deku'
-import classnames from 'classnames'
+const {h} = require('deku')
+const classnames = require('classnames')
 
 const renderViewSelectButton = function({props}) {
   const {name, view, switchView} = props
@@ -13,13 +14,11 @@ const renderViewSelectButton = function({props}) {
   }, [name])
 }
 
-export const ViewSelect = {
-  render({props}) {
-    const {view, switchView} = props
+module.exports = function renderViewSelect({props}) {
+  const {view, switchView} = props
 
-    return h('div', {class: 'bg-white'}, [
-      h(renderViewSelectButton, {name: 'layers', view, switchView}),
-      h(renderViewSelectButton, {name: 'board', view, switchView})
-    ])
-  }
+  return h('div', {class: 'bg-white'}, [
+    h(renderViewSelectButton, {name: 'layers', view, switchView}),
+    h(renderViewSelectButton, {name: 'board', view, switchView})
+  ])
 }

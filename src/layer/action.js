@@ -1,51 +1,55 @@
 // layer actions
+'use strict'
 
-import shortId from 'shortid'
-import randomColor from 'randomColor'
+const action = module.exports = {
+  ADD: 'layer:ADD',
+  START_RENDER: 'layer:START_RENDER',
+  FINISH_RENDER: 'layer:END_RENDER',
+  TOGGLE_VISIBILITY: 'layer:TOGGLE_VISIBILITY',
+  SET_CONVERSION_OPTS: 'layer:SET_CONVERSION_OPTS',
+  SET_TYPE: 'layer:SET_TYPE',
+  SET_COLOR: 'layer:SET_COLOR',
+  REMOVE: 'layer:REMOVE',
 
-export const ADD = 'layer:ADD'
-export const START_RENDER = 'layer:START_RENDER'
-export const FINISH_RENDER = 'layer:END_RENDER'
-export const TOGGLE_VISIBILITY = 'layer:TOGGLE_VISIBILITY'
-export const SET_CONVERSION_OPTS = 'layer:SET_CONVERSION_OPTS'
-export const SET_TYPE = 'layer:SET_TYPE'
-export const SET_COLOR = 'layer:SET_COLOR'
-export const REMOVE = 'layer:REMOVE'
+  add(file) {
+    const meta = {uniqueId: true, randomColor: true, convert: true}
 
-export const add = function(file) {
-  const id = shortId.generate()
-  const color = randomColor({luminosity: 'dark'})
-  const meta = {convert: true}
+    return {type: action.ADD, file, meta}
+  },
 
-  return {type: ADD, id, file, color, meta}
-}
+  remove(id) {
+    return {type: action.REMOVE, id}
+  },
 
-export const startRender = function(id, layerType) {
-  return {type: START_RENDER, id, layerType}
-}
+  startRender(id, layerType) {
+    const start = {type: action.START_RENDER, id}
 
-export const finishRender = function(id, conversionOpts, render, error) {
-  return {type: FINISH_RENDER, id, conversionOpts, render, error}
-}
+    if (layerType) {
+      start.layerType = layerType
+    }
 
-export const toggleVisibility = function(id) {
-  return {type: TOGGLE_VISIBILITY, id}
-}
+    return start
+  },
 
-export const setConversionOpts = function(id, conversionOpts) {
-  const meta = {convert: true}
+  finishRender(id, conversionOpts, render, error) {
+    return {type: action.FINISH_RENDER, id, conversionOpts, render, error}
+  },
 
-  return {type: SET_CONVERSION_OPTS, id, conversionOpts, meta}
-}
+  toggleVisibility(id) {
+    return {type: action.TOGGLE_VISIBILITY, id}
+  },
 
-export const setType = function(id, layerType) {
-  return {type: SET_TYPE, id, layerType}
-}
+  setConversionOpts(id, conversionOpts) {
+    const meta = {convert: true}
 
-export const setColor = function(id, color) {
-  return {type: SET_COLOR, id, color}
-}
+    return {type: action.SET_CONVERSION_OPTS, id, conversionOpts, meta}
+  },
 
-export const remove = function(id) {
-  return {type: REMOVE, id}
+  setType(id, layerType) {
+    return {type: action.SET_TYPE, id, layerType}
+  },
+
+  setColor(id, color) {
+    return {type: action.SET_COLOR, id, color}
+  }
 }

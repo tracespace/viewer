@@ -1,24 +1,30 @@
 // tracespace viewer
+'use strict'
 
-import {createStore, combineReducers, applyMiddleware} from 'redux'
-import {createApp, h} from 'deku'
-import createLogger from 'redux-logger'
-import throttle from 'redux-throttle'
+const {createStore, combineReducers, applyMiddleware} = require('redux')
+const {createApp, h} = require('deku')
+const createLogger = require('redux-logger')
+const throttle = require('redux-throttle')
 
-import main from './app/component/main'
-import appReducer, {NAME as APP_NAME} from './app/reducer'
-import layerReducer, {NAME as LAYER_NAME} from './layer/reducer'
-import converter from './converter'
+const main = require('./app/component/main')
+const appReducer = require('./app/reducer')
+const layerReducer = require('./layer/reducer')
+const layerMiddleware = require('./layer/middleware')
+const converter = require('./converter')
 
 const reducer = combineReducers({
-  [APP_NAME]: appReducer,
-  [LAYER_NAME]: layerReducer
+  [appReducer.NAME]: appReducer,
+  [layerReducer.NAME]: layerReducer
 })
 
-const worker = converter.createMiddleware()
-const throttler = throttle(100, {leading: false, trailing: true})
-const logger = createLogger()
-const store = createStore(reducer, applyMiddleware(worker, throttler, logger))
+const middleware = applyMiddleware(
+  layerMiddleware.uniqueId(),
+  layerMiddleware.randomColor(),
+  converter.createMiddleware(),
+  throttle.default(100, {leading: false, trailing: true}),
+  createLogger())
+
+const store = createStore(reducer, middleware)
 const render = createApp(document.getElementById('mount'), store.dispatch)
 
 let nextMain = main

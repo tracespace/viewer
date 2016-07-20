@@ -1,15 +1,18 @@
 // gerber converter worker module
+'use strict'
 
-import middleware from './middleware'
-import ConverterWorker from './worker'
+const middleware = require('./middleware')
+const ConverterWorker = require('./worker')
 
 const NAME = 'converter'
 
-const createMiddleware = function createWorkerMiddleware() {
-  const worker = new ConverterWorker()
-  const middle = middleware(worker)
+module.exports = {
+  NAME,
 
-  return middle
+  createMiddleware: function createWorkerMiddleware() {
+    const worker = new ConverterWorker()
+    const middle = middleware(worker)
+
+    return middle
+  }
 }
-
-export default {NAME, createMiddleware}

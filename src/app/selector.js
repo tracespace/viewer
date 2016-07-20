@@ -1,15 +1,20 @@
 // selectors for the app
+'use strict'
 
-import {createSelector} from 'reselect'
+const {createSelector} = require('reselect')
 
-import {NAME} from './reducer'
-
-export const getLayerDisplayStates = (state) => state[NAME].layers
-export const getSelectedView = (state) => state[NAME].view
+const {NAME} = require('./reducer')
 
 const getPanZoom = (state) => state[NAME].panZoom
-
-export const getSelectedPanZoom = createSelector(
+const getLayerDisplayStates = (state) => state[NAME].layers
+const getSelectedView = (state) => state[NAME].view
+const getSelectedPanZoom = createSelector(
   getSelectedView,
   getPanZoom,
   (view, panZoom) => panZoom[view])
+
+module.exports = {
+  getLayerDisplayStates,
+  getSelectedView,
+  getSelectedPanZoom
+}

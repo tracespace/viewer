@@ -1,9 +1,10 @@
 // gerber converter worker middleware
+'use strict'
 
-import uniqueId from 'lodash.uniqueid'
-import raf from 'raf'
+const uniqueId = require('lodash.uniqueid')
+const raf = require('raf')
 
-export default function makeGerberConverterMiddleware(worker) {
+module.exports = function makeGerberConverterMiddleware(worker) {
   return (store) => {
     worker.addEventListener('message', ({data}) => {
       raf(() => store.dispatch(JSON.parse(data)))
