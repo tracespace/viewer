@@ -5,6 +5,7 @@ const {createStore, combineReducers, applyMiddleware} = require('redux')
 const {createApp, h} = require('deku')
 const createLogger = require('redux-logger')
 const throttle = require('redux-throttle')
+const raf = require('raf')
 
 const main = require('./app/component/main')
 const appReducer = require('./app/reducer')
@@ -35,7 +36,7 @@ const update = function update(component) {
     isUpdating = true
     componentToUpdate = component
 
-    requestAnimationFrame(() => {
+    raf(() => {
       isUpdating = false
       render(h(componentToUpdate), store.getState())
     })

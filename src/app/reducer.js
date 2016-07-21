@@ -14,14 +14,14 @@ const INITIAL_STATE = {
   panZoom: {
     layers: {
       panStart: null,
-      scale: 0.6,
-      x: 0.4,
+      scale: 1,
+      x: 0.5,
       y: 0.5
     },
     board: {
       panStart: null,
-      scale: 0.6,
-      x: 0.4,
+      scale: 1,
+      x: 0.5,
       y: 0.5
     }
   },
