@@ -10,8 +10,6 @@ module.exports = function makeGerberConverterMiddleware(worker) {
       raf(() => store.dispatch(JSON.parse(data)))
     })
 
-    worker.postMessage({})
-
     return (next) => (action) => {
       if (action.meta && action.meta.convert) {
         const id = uniqueId()

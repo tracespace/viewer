@@ -3,7 +3,8 @@
 
 const {h} = require('deku')
 
-const {LayerDefs, LayerDetailsItem} = require('../../layer/component')
+const GerberSettings = require('./gerber-settings')
+const {LayerDefs} = require('../../layer/component')
 
 module.exports = function renderGerberOutput({props}) {
   const {layers, layerDisplayStates, renders, units} = props
@@ -12,7 +13,7 @@ module.exports = function renderGerberOutput({props}) {
   const children = layers.map((layer) => {
     const id = layer.id
 
-    return h(LayerDetailsItem, {
+    return h(GerberSettings, {
       layer,
       showSettings: layerDisplayStates[id].showSettings,
       toggleVisibility: toggleVisibility(id),

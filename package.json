@@ -13,7 +13,7 @@
     "posttest": "npm run lint",
     "deploy": "echo 'script not implemented' && exit 1",
     "coverage": "nyc report",
-    "coverage:html": "nyc report -r html && open coverage/index.html"
+    "coverage:html": "nyc report --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -29,12 +29,14 @@
     "node": ">=6.0.0"
   },
   "devDependencies": {
+    "amp-has-class": "^1.0.3",
     "ava": "^0.15.2",
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
     "babel-preset-es2040": "^1.1.1",
     "eslint": "^2.9.0",
     "express": "^4.13.4",
+    "jsdom": "^9.4.1",
     "nyc": "^7.0.0",
     "sinon": "^1.17.4",
     "webpack": "^1.13.0",
