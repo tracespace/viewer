@@ -58,6 +58,7 @@
     "randomcolor": "^0.4.4",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
+    "redux-responsive": "^3.0.2",
     "redux-throttle": "^0.1.1",
     "reselect": "^2.5.1",
     "shortid": "^2.2.6",

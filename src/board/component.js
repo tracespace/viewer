@@ -31,6 +31,7 @@ module.exports = {
     const topRatio = stackup.top.height / stackup.top.width * 100 + '%'
     const bottomRatio = stackup.bottom.height / stackup.bottom.width * 100 + '%'
 
+    // TODO: get rid of this hack by expanding the api of pcb-stackup-core
     stackup.top.svg.attributes.class = 'w-100 h-100'
     stackup.bottom.svg.attributes.class = 'w-100 h-100'
 

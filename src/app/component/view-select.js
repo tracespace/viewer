@@ -8,8 +8,9 @@ const renderViewSelectButton = function({props}) {
   const {name, view, switchView} = props
   const bg = (name === view) ? 'bg-white' : 'bg-near-white'
 
-  return h('button', {
-    class: classnames('pointer btn bn w-50 f5', bg),
+  return h('a', {
+    class: classnames('btn dib w-50 f5 link dim brand-2 tc pv1', bg),
+    href: '#',
     onClick: switchView(name)
   }, [name])
 }
@@ -17,7 +18,7 @@ const renderViewSelectButton = function({props}) {
 module.exports = function renderViewSelect({props}) {
   const {view, switchView} = props
 
-  return h('div', {class: 'bg-white'}, [
+  return h('div', {class: 'bg-white clickable'}, [
     h(renderViewSelectButton, {name: 'layers', view, switchView}),
     h(renderViewSelectButton, {name: 'board', view, switchView})
   ])

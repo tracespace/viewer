@@ -25,8 +25,10 @@ module.exports = function renderGerberOutput({props}) {
   })
 
   return h('output', {class: ''}, [
-    h('ol', {class: 'bg-white list ma0 pv2 ph0 max-app-ht overflow-scroll'}, children),
-    h('p', {class: 'bg-white ma0 pa1 tc'}, [`${children.length} files`]),
+    h('ol', {
+      class: 'bg-white list ma0 pv2 ph0 max-app-ht overflow-scroll clickable'
+    }, children),
+    h('p', {class: 'bg-white ma0 pa1 tc clickable'}, [`${children.length} files`]),
     h('svg', {class: 'fixed z-back'}, [
       h(LayerDefs, {renders, units})
     ])

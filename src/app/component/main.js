@@ -11,7 +11,11 @@ const ViewSelect = require('./view-select')
 const View = require('./view')
 
 const appAction = require('../action')
-const {getSelectedView, getSelectedPanZoom, getLayerDisplayStates} = require('../selector')
+const {
+  getSelectedView,
+  getSelectedPanZoom,
+  getLayerDisplayStates
+} = require('../selector')
 
 const layerAction = require('../../layer/action')
 const {
@@ -28,7 +32,10 @@ const addGerber = (dispatch) => (event) => {
   files.forEach((file) => dispatch(layerAction.add(file)))
 }
 
-const switchView = (dispatch) => (view) => () => {
+const switchView = (dispatch) => (view) => (event) => {
+  event.preventDefault()
+  event.stopPropagation()
+
   dispatch(appAction.switchView(view))
 }
 
@@ -52,6 +59,10 @@ const removeGerber = (dispatch) => (id) => () => {
 
 const toggleLayerSettings = (dispatch) => (id) => () => {
   dispatch(appAction.toggleLayerSettings(id))
+}
+
+const handleFit = (dispatch) => (view) => () => {
+  dispatch(appAction.fitView(view))
 }
 
 const handleZoom = (dispatch) => (view) => (event) => {
@@ -87,6 +98,18 @@ const handleEndPan = (dispatch) => (view) => () => {
   dispatch(appAction.endPan(view))
 }
 
+const handleDiscretePan = (dispatch) => (view) => (direction) => {
+  dispatch(appAction.discretePan(view, direction))
+}
+
+const handleZoomTo = (dispatch) => (view) => (zoom) => {
+  dispatch(appAction.zoomTo(view, zoom))
+}
+
+// const handleDiscreteZoom = (dispatch) => (view, direction) => () => {
+//   dispatch(appAction.discreteZoom(view, direction))
+// }
+
 module.exports = function renderMain({dispatch, context}) {
   const layers = getLayers(context)
   const renders = getRenders(context)
@@ -96,11 +119,12 @@ module.exports = function renderMain({dispatch, context}) {
   const selectedView = getSelectedView(context)
   const selectedPanZoom = getSelectedPanZoom(context)
   const totalViewbox = getTotalViewbox(context)
+  const windowAspect = context.browser.width / context.browser.height
 
   return h('div', {class: 'h-100 '}, [
     h(Nav, {}),
 
-    h('div', {class: 'w-25 mh3 mt5 pt3 fixed right-0 max-app-ht z-1'}, [
+    h('div', {class: 'w-25 mh3 mt3-past-h3 fixed right-0 app-ht z-1 click-thru'}, [
       h(ViewSelect, {view: selectedView, switchView: switchView(dispatch)}),
       h(GerberOutput, {
         layers,
@@ -116,16 +140,20 @@ module.exports = function renderMain({dispatch, context}) {
       h(GerberInput, {addGerber: addGerber(dispatch)})
     ]),
 
-    h('div', {class: 'relative w-100 h-100 overflow-hidden bg-light-gray'}, [
+    h('div', {class: 'relative w-100 h-100 overflow-hidden bg-black-10'}, [
       h(View, {
         view: selectedView,
         panZoom: selectedPanZoom,
         layers: renderedLayers,
+        handleFit: handleFit(dispatch),
         handleZoom: handleZoom(dispatch),
         handlePan: handlePan(dispatch),
         handleStartPan: handleStartPan(dispatch),
         handleEndPan: handleEndPan(dispatch),
-        totalViewbox
+        handleDiscretePan: handleDiscretePan(dispatch),
+        handleZoomTo: handleZoomTo(dispatch),
+        totalViewbox,
+        windowAspect
       })
     ])
   ])

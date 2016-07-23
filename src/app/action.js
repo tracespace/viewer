@@ -3,14 +3,21 @@
 
 const action = module.exports = {
   SWITCH_VIEW: 'app:SWITCH_VIEW',
+  FIT_VIEW: 'app:FIT_VIEW',
   ZOOM_VIEW: 'app:ZOOM_VIEW',
   PAN_VIEW: 'app:PAN_VIEW',
   START_PAN: 'app:START_PAN',
   END_PAN: 'app:END_PAN',
+  DISCRETE_PAN: 'app:DISCRETE_PAN',
+  ZOOM_TO: 'app:ZOOM_TO',
   TOGGLE_LAYER_SETTINGS: 'app:TOGGLE_LAYER_SETTINGS',
 
   switchView(view) {
     return {type: action.SWITCH_VIEW, view}
+  },
+
+  fitView(view) {
+    return {type: action.FIT_VIEW, view}
   },
 
   zoomView(view, zoom, zoomX, zoomY) {
@@ -27,6 +34,14 @@ const action = module.exports = {
 
   endPan(view) {
     return {type: action.END_PAN, view}
+  },
+
+  discretePan(view, direction) {
+    return {type: action.DISCRETE_PAN, view, direction}
+  },
+
+  zoomTo(view, zoom) {
+    return {type: action.ZOOM_TO, view, zoom, meta: {throttle: true}}
   },
 
   toggleLayerSettings(id) {

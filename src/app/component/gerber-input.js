@@ -4,7 +4,7 @@
 const {h} = require('deku')
 
 module.exports = function renderGerberInput({props, path}) {
-  return h('div', {class: 'bg-white pt1'}, [
+  return h('div', {class: 'bg-white pt1 clickable'}, [
     h('input', {
       id: path,
       type: 'file',
@@ -15,7 +15,7 @@ module.exports = function renderGerberInput({props, path}) {
 
     h('label', {
       for: path,
-      class: 'pointer db w-auto tc border-box f3 bg-brand near-white'
+      class: 'pointer btn db w-auto tc border-box f3 bg-link dim bg-brand-2 near-white'
     }, ['+'])
   ])
 }
