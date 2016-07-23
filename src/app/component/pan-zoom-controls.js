@@ -100,7 +100,7 @@ const ZoomBar = {
     return h('div', {
       onMouseDown: handleMouseEvent,
       onMouseMove: handleMouseEvent,
-      class: 'w-50 h-100 m-auto bg-white clickable pointer grab'
+      class: 'w-50 h-100 m-auto bg-white-90 clickable pointer grab'
     })
   }
 }

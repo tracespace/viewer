@@ -53,6 +53,10 @@ const setConversionOpts = (dispatch) => (id, conversionOpts, path) => (value) =>
   dispatch(layerAction.setConversionOpts(id, set(opts, path, value)))
 }
 
+const setColor = (dispatch) => (id) => (event) => {
+  dispatch(layerAction.setColor(id, event.target.value))
+}
+
 const removeGerber = (dispatch) => (id) => () => {
   dispatch(layerAction.remove(id))
 }
@@ -135,6 +139,7 @@ module.exports = function renderMain({dispatch, context}) {
         remove: removeGerber(dispatch),
         setType: setType(dispatch),
         setConversionOpts: setConversionOpts(dispatch),
+        setColor: setColor(dispatch),
         toggleSettings: toggleLayerSettings(dispatch)
       }),
       h(GerberInput, {addGerber: addGerber(dispatch)})

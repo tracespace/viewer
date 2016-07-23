@@ -8,7 +8,14 @@ const {LayerDefs} = require('../../layer/component')
 
 module.exports = function renderGerberOutput({props}) {
   const {layers, layerDisplayStates, renders, units} = props
-  const {toggleVisibility, toggleSettings, remove, setType, setConversionOpts} = props
+  const {
+    toggleVisibility,
+    toggleSettings,
+    remove,
+    setType,
+    setConversionOpts,
+    setColor
+  } = props
 
   const children = layers.map((layer) => {
     const id = layer.id
@@ -20,15 +27,16 @@ module.exports = function renderGerberOutput({props}) {
       toggleSettings: toggleSettings(id),
       remove: remove(id),
       setType: setType(id),
-      setConversionOpts: setConversionOpts
+      setConversionOpts: setConversionOpts,
+      setColor: setColor(id)
     })
   })
 
   return h('output', {class: ''}, [
     h('ol', {
-      class: 'bg-white list ma0 pv2 ph0 max-app-ht overflow-scroll clickable'
+      class: 'bg-white-90 list ma0 pv2 ph0 max-app-ht overflow-scroll clickable'
     }, children),
-    h('p', {class: 'bg-white ma0 pa1 tc clickable'}, [`${children.length} files`]),
+    h('p', {class: 'bg-white-90 ma0 pa1 tc clickable'}, [`${children.length} files`]),
     h('svg', {class: 'fixed z-back'}, [
       h(LayerDefs, {renders, units})
     ])

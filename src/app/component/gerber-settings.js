@@ -5,6 +5,8 @@ const {h} = require('deku')
 const {getAllTypes, getFullName} = require('whats-that-gerber')
 const classnames = require('classnames')
 
+const ColorPicker = require('./color-picker')
+
 const ALL_LAYER_TYPES = getAllTypes()
 const ALL_LAYER_NAMES = ALL_LAYER_TYPES.map((type) => getFullName(type))
 
@@ -75,7 +77,7 @@ const Checkbox = {
 
 const LayerSettingsItem = {
   render({props}) {
-    const {setType, setConversionOpts, layer} = props
+    const {setType, setConversionOpts, setColor, layer} = props
     const {id, layerType} = layer
 
     const conversionOpts = layer.conversionOpts || {}
@@ -149,6 +151,7 @@ module.exports = function renderLayerDetailsItem({props}) {
     remove,
     setType,
     setConversionOpts,
+    setColor,
     toggleSettings,
     showSettings,
     layer
@@ -172,10 +175,7 @@ module.exports = function renderLayerDetailsItem({props}) {
 
   return h('li', {class: 'pv1'}, [
     h('div', {class: 'ph2 fx fx-ai-c ma0'}, [
-      h('button', {
-        class: 'pointer bn h2 w2 pa0 layer-opacity',
-        style: `background-color: ${color}`
-      }),
+      h(ColorPicker, {color, onChange: setColor}),
       h('span', {class: 'ml2 mr-auto'}, [
         h('p', {class: 'lh-title ma0 f6 b'}, [name]),
         h('p', {class: 'lh-title ma0 f6'}, [filename])

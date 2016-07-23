@@ -5,7 +5,7 @@ const {h} = require('deku')
 
 module.exports = function renderTopNav() {
   return h('header', {
-    class: 'mb3 w-100 bg-white brand-2 fx fx-ai-c fixed z-1'
+    class: 'mb3 w-100 bg-white-90 brand-2 fx fx-ai-c fixed z-1'
   }, [
     h('img', {src: '/logo.svg', class: 'h3 w3 pa2 border-box'}),
     h('span', {class: 'mr-auto'}, [
