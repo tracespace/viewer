@@ -160,7 +160,7 @@ module.exports = function renderLayerDetailsItem({props}) {
   const {filename, color, layerType, isVisible, isRendering} = layer
   const name = getFullName(layerType)
 
-  const btnClass = 'pointer btn bn bg-transparent'
+  const btnClass = 'pointer btn bn bg-transparent dim'
   const btnDisabled = isRendering
 
   const visibilityIcon = classnames('fa', {

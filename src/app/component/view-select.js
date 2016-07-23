@@ -6,10 +6,15 @@ const classnames = require('classnames')
 
 const renderViewSelectButton = function({props}) {
   const {name, view, switchView} = props
-  const bg = (name === view) ? '' : 'bg-black-20'
+  const isSelected = name === view
+  const classNames = classnames('btn dib w-50 f5 link brand-2 tc pv1', {
+    'bg-black-20': !isSelected,
+    dim: !isSelected,
+    disabled: isSelected
+  })
 
   return h('a', {
-    class: classnames('btn dib w-50 f5 link dim brand-2 tc pv1', bg),
+    class: classNames,
     href: '#',
     onClick: switchView(name)
   }, [name])

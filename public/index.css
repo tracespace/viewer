@@ -72,7 +72,8 @@ body {
 }
 
 
-.btn[disabled] {
+.btn[disabled],
+.btn.disabled {
   backgound-color: grey;
   cursor: default;
 }
