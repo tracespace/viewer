@@ -2,6 +2,14 @@
 
 const webpack = require('webpack')
 const path = require('path')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+// postcss plugins
+const postcssImport = require('postcss-import')
+const cssnext = require('postcss-cssnext')
+
+const FILENAME = 'bundle.js'
+// const CSS_FILENAME = 'bundle.css'
 
 module.exports = {
   devtool: '#source-map',
@@ -11,7 +19,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
+    filename: FILENAME,
     library: 'app',
     publicPath: '/'
   },
@@ -40,8 +48,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader!postcss-loader'
       }
     ]
-  }
+  },
+  postcss: (wpContext) => [
+    postcssImport({addDependencyTo: wpContext}),
+    cssnext
+  ]
 }

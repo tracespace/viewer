@@ -15,18 +15,21 @@ module.exports = function renderSelect({props, path}) {
 
   const children = options.map((option) => {
     const optionProps = Object.assign({}, option, {
-      selected: option.value === value
+      selected: option.value === value,
+      class: 'normal'
     })
 
     return h(Option, optionProps)
   })
 
-  return h('label', {style, class: 'db ph2 pointer'}, [
-    h('span', {class: 'b'}, [name]),
-    h('span', {class: 'fa fa-angle-right mh1'}),
+  return h('label', {style, class: 'flex items-center ph2 lh-title pointer'}, [
+    h('span', {class: 'flex items-center w-50 fw6'}, [
+      h('span', {class: 'mr-auto'}, [name]),
+      h('span', {class: 'fa fa-angle-right mh2'})
+    ]),
     h('select', {
       id: path,
-      class: 'input-reset inherit-color bn bg-transparent pointe',
+      class: 'flex-none input-reset inherit-color bn bg-transparent pointer',
       onChange: handleChange
     }, children)
   ])

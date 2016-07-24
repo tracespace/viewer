@@ -59,7 +59,7 @@ const component = module.exports = {
       : 0
 
     return h('div', {
-      class: 'relative w-100 h0',
+      class: 'w-100 aspect-ratio',
       style: `padding-bottom: ${padding}`
     }, [
       renderLayer(model, {id: path, class: 'absolute'}, h, false)

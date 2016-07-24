@@ -37,7 +37,7 @@ const PanButton = {
   render({props}) {
     const {direction, onClick} = props
     const icon = PAN_BUTTON_ICONS[direction]
-    const className = 'dib bn btn pointer bg-transparent pa0 clickable w-1-3 h-100'
+    const className = 'dib bn btn pointer bg-transparent pa0 click w-1-3 h-100'
 
     return h('button', {
       class: className,
@@ -49,7 +49,7 @@ const PanButton = {
         stroke: 'currentColor',
         'stroke-linecap': 'square',
         'stroke-width': 30,
-        class: 'w-100 h-100 brand-2 dim link'
+        class: 'w-100 h-100 app-dark dim link'
       }, icon)
     ])
   }
@@ -100,7 +100,7 @@ const ZoomBar = {
     return h('div', {
       onMouseDown: handleMouseEvent,
       onMouseMove: handleMouseEvent,
-      class: 'w-50 h-100 m-auto bg-white-90 clickable pointer grab'
+      class: 'w-50 h-100 m-auto bg-white-90 click pointer grab'
     })
   }
 }
@@ -121,10 +121,10 @@ const ZoomControl = {
       }
     }
 
-    return h('div', {class: 'w-100 h-100 relative'}, [
+    return h('div', {class: 'w-100 h-100 relative dim-child'}, [
       h(ZoomBar, {handleMouseEvent}),
       h('span', {
-        class: 'absolute w-100 border-box h1 left-0 bg-brand-2 dim ba b--white-80 grab',
+        class: 'absolute w-100 border-box h1 left-0 app-bg-dark dim ba b--white-80 child',
         style: `top: calc(${top}% - 0.5rem);`,
         role: 'slider',
         tabindex: 0,
@@ -142,7 +142,7 @@ module.exports = function renderPanZoomControls({props}) {
   const {panZoom, handleFit, handleDiscretePan, handleZoomTo} = props
 
   return h('div', {
-    class: 'w-5 mh3 mt3-past-h3 fixed left-0 z-1 click-thru'
+    class: 'w-5 mh3 app-mt3-past-nav fixed left-0 z-1 click-none'
   }, [
     h('div', {class: 'mb3'}, [
       h(PanControl, {handleFit, handleDiscretePan})

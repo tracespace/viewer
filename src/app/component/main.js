@@ -138,7 +138,9 @@ module.exports = function renderMain({dispatch, context}) {
   return h('div', {class: 'h-100 '}, [
     h(Nav, {}),
 
-    h('div', {class: 'w-25 mh3 mt3-past-h3 fixed right-0 max-app-ht z-1 fx fx-d-c'}, [
+    h('div', {
+      class: 'fixed right-0 w-25 app-max-ht mh3 app-mt3-past-nav z-1 flex flex-column'
+    }, [
       h(ViewSelect, {view: selectedView, switchView: switchView(dispatch)}),
       h(GerberOutput, {
         layers,
@@ -161,7 +163,7 @@ module.exports = function renderMain({dispatch, context}) {
       h(GerberInput, {addGerber: addGerber(dispatch)})
     ]),
 
-    h('div', {class: 'relative w-100 h-100 overflow-hidden bg-black-10'}, [
+    h('div', {class: 'relative w-100 h-100 overflow-hidden app-bg'}, [
       h(View, {
         view: selectedView,
         panZoom: selectedPanZoom,

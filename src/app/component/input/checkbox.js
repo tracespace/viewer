@@ -7,8 +7,8 @@ module.exports = function renderCheckbox({props, path}) {
   const {name, checked, onChange} = props
   const handleChange = (event) => onChange(event.target.checked)
 
-  return h('label', {class: 'ph2 pointer db'}, [
+  return h('label', {class: 'db ph2 lh-title pointer'}, [
     h('input', {id: path, type: 'checkbox', checked, onChange: handleChange}),
-    h('span', {class: 'ml2 b'}, [name])
+    h('span', {class: 'ml2 fw6'}, [name])
   ])
 }
