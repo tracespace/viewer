@@ -2,27 +2,27 @@
 
 const {h} = require('deku')
 const pcbStackupCore = require('pcb-stackup-core')
-const whatsThatGerber = require('whats-that-gerber')
 const shortId = require('shortid')
 
 module.exports = {
   Board: function renderBoard({props}) {
-    const layers = props.layers.map((layer) => {
+    const {layers, board} = props
+
+    const stackupLayers = layers.map((layer) => {
       return {
-        type: whatsThatGerber(layer.filename),
+        type: layer.layerType,
         converter: layer.render,
         externalId: layer.id
       }
     })
 
-    const stackupOptions = {
+    const stackupOptions = Object.assign({
       id: shortId(),
-      maskWithOutline: true,
       createElement: h,
       includeNamespace: false
-    }
+    }, board)
 
-    const stackup = pcbStackupCore(layers, stackupOptions)
+    const stackup = pcbStackupCore(stackupLayers, stackupOptions)
 
     const width = (stackup.top.width + stackup.bottom.width) / 0.95
     const height = Math.max(stackup.top.height, stackup.bottom.height)

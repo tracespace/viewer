@@ -13,6 +13,7 @@ module.exports = function renderAppView({props}) {
     view,
     panZoom,
     layers,
+    board,
     totalViewbox,
     windowAspect,
     handleFit,
@@ -68,7 +69,7 @@ module.exports = function renderAppView({props}) {
     h('div', attributes, [
       h('div', {style, class: 'w-100 h-100'}, [
         h('div', {class: 'absolute w-100 left-50 top-50 transform-center'}, [
-          h(renderView, {layers, totalViewbox})
+          h(renderView, {layers, totalViewbox, board})
         ])
       ])
     ])

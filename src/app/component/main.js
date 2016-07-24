@@ -8,6 +8,7 @@ const Nav = require('./nav')
 const GerberInput = require('./gerber-input')
 const GerberOutput = require('./gerber-output')
 const ViewSelect = require('./view-select')
+const BoardSettings = require('./board-settings')
 const View = require('./view')
 
 const appAction = require('../action')
@@ -26,6 +27,9 @@ const {
   getTotalViewbox
 } = require('../../layer/selector')
 
+const boardAction = require('../../board/action')
+const {getBoard} = require('../../board/selector')
+
 const addGerber = (dispatch) => (event) => {
   const files = Array.from(event.target.files)
 
@@ -43,8 +47,8 @@ const toggleVisibility = (dispatch) => (id) => () => {
   dispatch(layerAction.toggleVisibility(id))
 }
 
-const setType = (dispatch) => (id) => (event) => {
-  dispatch(layerAction.setType(id, event.target.value))
+const setType = (dispatch) => (id) => (type) => {
+  dispatch(layerAction.setType(id, type))
 }
 
 const setConversionOpts = (dispatch) => (id, conversionOpts, path) => (value) => {
@@ -110,12 +114,18 @@ const handleZoomTo = (dispatch) => (view) => (zoom) => {
   dispatch(appAction.zoomTo(view, zoom))
 }
 
-// const handleDiscreteZoom = (dispatch) => (view, direction) => () => {
-//   dispatch(appAction.discreteZoom(view, direction))
-// }
+const handleSetBoardColor = (dispatch) => (type) => (color) => {
+  dispatch(boardAction.setColor(type, color))
+}
+
+const handleSetMaskWithOutline = (dispatch) => () => (mask) => {
+  dispatch(boardAction.maskWithOutline(mask))
+}
+
 
 module.exports = function renderMain({dispatch, context}) {
   const layers = getLayers(context)
+  const board = getBoard(context)
   const renders = getRenders(context)
   const units = getUnits(context)
   const renderedLayers = getRenderedLayers(context)
@@ -128,7 +138,7 @@ module.exports = function renderMain({dispatch, context}) {
   return h('div', {class: 'h-100 '}, [
     h(Nav, {}),
 
-    h('div', {class: 'w-25 mh3 mt3-past-h3 fixed right-0 app-ht z-1 click-thru'}, [
+    h('div', {class: 'w-25 mh3 mt3-past-h3 fixed right-0 max-app-ht z-1 fx fx-d-c'}, [
       h(ViewSelect, {view: selectedView, switchView: switchView(dispatch)}),
       h(GerberOutput, {
         layers,
@@ -142,6 +152,12 @@ module.exports = function renderMain({dispatch, context}) {
         setColor: setColor(dispatch),
         toggleSettings: toggleLayerSettings(dispatch)
       }),
+      h(BoardSettings, {
+        board,
+        view: selectedView,
+        handleSetColor: handleSetBoardColor(dispatch),
+        handleSetMaskWithOutline: handleSetMaskWithOutline(dispatch)
+      }),
       h(GerberInput, {addGerber: addGerber(dispatch)})
     ]),
 
@@ -150,6 +166,7 @@ module.exports = function renderMain({dispatch, context}) {
         view: selectedView,
         panZoom: selectedPanZoom,
         layers: renderedLayers,
+        board,
         handleFit: handleFit(dispatch),
         handleZoom: handleZoom(dispatch),
         handlePan: handlePan(dispatch),

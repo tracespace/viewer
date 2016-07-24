@@ -38,8 +38,16 @@ body {
   transition: background-color .15s ease-in;
 }
 
+.bg-app {
+  background-color: #C9DAEA;
+}
+
 .striped--brand-light:nth-child(odd) {
   background-color: rgba(51, 204, 204, 0.1);
+}
+
+.inherit-color {
+  color: inherit;
 }
 
 .z-1 {
@@ -84,6 +92,14 @@ body {
 
 .fx {
   display: flex;
+}
+
+.fx-0-0 {
+  flex: 0 0 auto;
+}
+
+.fx-1-1 {
+  flex: 1 1 auto;
 }
 
 .fx-b-3 {

@@ -5,35 +5,12 @@ const {h} = require('deku')
 const {getAllTypes, getFullName} = require('whats-that-gerber')
 const classnames = require('classnames')
 
-const ColorPicker = require('./color-picker')
+const Checkbox = require('../../input/checkbox')
+const Select = require('../../input/select')
 
-const ALL_LAYER_TYPES = getAllTypes()
-const ALL_LAYER_NAMES = ALL_LAYER_TYPES.map((type) => getFullName(type))
-
-const Select = {
-  render({props, path}) {
-    const {name, value, options, contents, onChange} = props
-
-    const optionElements = options.map((option, index) => {
-      return h('option', {
-        value: option,
-        selected: option === value
-      }, contents.slice(index, index + 1))
-    })
-
-    return h('div', {class: 'ph2 striped--brand-light'}, [
-      h('label', {for: path, class: 'fw9 pointer'}, [
-        name,
-        h('span', {class: 'fa fa-angle-right mh1'})
-      ]),
-      h('select', {
-        id: path,
-        class: 'input-reset pointer bn bg-transparent',
-        onChange
-      }, optionElements)
-    ])
-  }
-}
+const ALL_LAYER_OPTIONS = getAllTypes().map((type) => {
+  return {value: type, title: getFullName(type)}
+})
 
 const PlacesSelect = {
   render({props}) {
@@ -64,20 +41,9 @@ const PlacesSelect = {
   }
 }
 
-const Checkbox = {
-  render({props, path}) {
-    const {name, checked, onChange} = props
-
-    return h('div', {class: 'ph2 striped--brand-light'}, [
-      h('input', {id: path, type: 'checkbox', checked, onChange}),
-      h('label', {for: path, class: 'pointer ml1 fw9'}, [name])
-    ])
-  }
-}
-
 const LayerSettingsItem = {
   render({props}) {
-    const {setType, setConversionOpts, setColor, layer} = props
+    const {setType, setConversionOpts, layer} = props
     const {id, layerType} = layer
 
     const conversionOpts = layer.conversionOpts || {}
@@ -85,33 +51,38 @@ const LayerSettingsItem = {
     const layerSelect = h(Select, {
       name: 'layer type',
       value: layerType,
-      options: ALL_LAYER_TYPES,
-      contents: ALL_LAYER_NAMES,
+      options: ALL_LAYER_OPTIONS,
       onChange: setType
     })
 
     const filetypeSelect = h(Select, {
       name: 'file type',
       value: conversionOpts.filetype,
-      options: ['gerber', 'drill'],
-      contents: ['gerber', 'drill'],
-      onChange: (event) => setConversionOpts(id, conversionOpts, 'filetype')(event.target.value)
+      options: [
+        {title: 'gerber', value: 'gerber'},
+        {title: 'drill', value: 'drill'}
+      ],
+      onChange: setConversionOpts(id, conversionOpts, 'filetype')
     })
 
     const zeroSelect = h(Select, {
       name: 'zero suppression',
       value: conversionOpts.zero,
-      options: ['L', 'T'],
-      contents: ['leading', 'trailing'],
-      onChange: (event) => setConversionOpts(id, conversionOpts, 'zero')(event.target.value)
+      options: [
+        {title: 'leading', value: 'L'},
+        {title: 'trailing', value: 'T'}
+      ],
+      onChange: setConversionOpts(id, conversionOpts, 'zero')
     })
 
     const unitsSelect = h(Select, {
       name: 'units',
       value: conversionOpts.units,
-      options: ['in', 'mm'],
-      contents: ['inches', 'millimeters'],
-      onChange: (event) => setConversionOpts(id, conversionOpts, 'units')(event.target.value)
+      options: [
+        {title: 'inches', value: 'in'},
+        {title: 'millimeters', value: 'mm'}
+      ],
+      onChange: setConversionOpts(id, conversionOpts, 'units')
     })
 
     const placesSelect = h(PlacesSelect, {
@@ -122,15 +93,17 @@ const LayerSettingsItem = {
     const notationSelect = h(Select, {
       name: 'notation',
       value: conversionOpts.nota,
-      options: ['A', 'I'],
-      contents: ['absolute', 'incremental'],
-      onChange: (event) => setConversionOpts(id, conversionOpts, 'nota')(event.target.value)
+      options: [
+        {title: 'absolute', value: 'A'},
+        {title: 'incremental', value: 'I'}
+      ],
+      onChange: setConversionOpts(id, conversionOpts, 'nota')
     })
 
     const plotAsOutlineCheckbox = h(Checkbox, {
       name: 'plot as outline',
       checked: conversionOpts.plotAsOutline,
-      onChange: (event) => setConversionOpts(id, conversionOpts, 'plotAsOutline')(event.target.checked)
+      onChange: setConversionOpts(id, conversionOpts, 'plotAsOutline')
     })
 
     return h('div', {class: 'f6 mt2'}, [
@@ -141,6 +114,19 @@ const LayerSettingsItem = {
       notationSelect,
       placesSelect,
       plotAsOutlineCheckbox
+    ])
+  }
+}
+
+const ColorPicker = {
+  render({props, path}) {
+    const {color, onChange} = props
+
+    return h('label', {
+      class: 'h2 w2 fx-0-0 btn pointer',
+      style: `background-color: ${color}`
+    }, [
+      h('input', {onChange, id: path, type: 'color', value: color, class: 'clip'})
     ])
   }
 }

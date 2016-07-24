@@ -4,7 +4,7 @@
 const {h} = require('deku')
 
 module.exports = function renderGerberInput({props, path}) {
-  return h('div', {class: 'bg-white-90 pt1 clickable'}, [
+  return h('div', {class: 'bg-white-90 pt1 clickable fx-0-0'}, [
     h('input', {
       id: path,
       type: 'file',

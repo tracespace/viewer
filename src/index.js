@@ -9,6 +9,7 @@ const {responsiveStoreEnhancer, responsiveStateReducer} = require('redux-respons
 const raf = require('raf')
 
 const appReducer = require('./app/reducer')
+const boardReducer = require('./board/reducer')
 const layerReducer = require('./layer/reducer')
 const layerMiddleware = require('./layer/middleware')
 const converter = require('./converter')
@@ -16,7 +17,8 @@ const converter = require('./converter')
 const reducer = combineReducers({
   browser: responsiveStateReducer,
   [appReducer.NAME]: appReducer,
-  [layerReducer.NAME]: layerReducer
+  [layerReducer.NAME]: layerReducer,
+  [boardReducer.NAME]: boardReducer
 })
 
 const middleware = applyMiddleware(

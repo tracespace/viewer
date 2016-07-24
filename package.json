@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "color": "^0.11.3",
     "deku": "^2.0.0-rc16",
     "filereader-stream": "^1.0.0",
     "gerber-to-svg": "^2.0.1",
