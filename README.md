@@ -19,7 +19,7 @@ Using awesome new web technologies, the tracespace viewer also works offline and
 
 ## motivation
 
-Because you should always check your design files for problems! Existing Gerber viewers are good, but tend not to give you a full picture of what your board will look like, meaning you can miss important details (shout out to [OSH Park](https://oshpark.com) for super cool renders by default). Gerber files (i.e. your PCB manufacturing files) are vector image files, so it makes sense to convert them into a web-friendly vector format. And an offline-enabled web-app means you don't have to worry about downloading or updating any software, and you'll still always have your the viewer available.
+Because you should always check your design files for problems! Existing Gerber viewers are good, but tend not to give you a full picture of what your board will look like, meaning you can miss important details (shout out to [OSH Park](https://oshpark.com) for super cool renders by default). Gerber files (i.e. your PCB manufacturing files) are vector image files, so it makes sense to convert them into a web-friendly vector format. And an offline-enabled web-app means you don't have to worry about downloading or updating any software, and you'll still always have the viewer available.
 
 ## issues
 
