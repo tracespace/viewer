@@ -37,7 +37,7 @@ const PanButton = {
   render({props}) {
     const {direction, onClick} = props
     const icon = PAN_BUTTON_ICONS[direction]
-    const className = 'dib bn btn pointer bg-transparent pa0 click w-1-3 h-100'
+    const className = 'dib bn pointer bg-transparent pa0 click w-1-3 h-100'
 
     return h('button', {
       class: className,

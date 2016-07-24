@@ -123,7 +123,7 @@ const ColorPicker = {
     const {color, onChange} = props
 
     return h('label', {
-      class: 'h2 w2 flex-none btn pointer',
+      class: 'h2 w2 flex-none pointer',
       style: `background-color: ${color}`
     }, [
       h('input', {onChange, id: path, type: 'color', value: color, class: 'clip'})
@@ -146,7 +146,7 @@ module.exports = function renderLayerDetailsItem({props}) {
   const {filename, color, layerType, isVisible, isRendering} = layer
   const name = getFullName(layerType)
 
-  const btnClass = 'pointer btn bn bg-transparent dim'
+  const btnClass = 'pointer bn bg-transparent dim'
   const btnDisabled = isRendering
 
   const visibilityIcon = classnames('fa', {
@@ -154,8 +154,8 @@ module.exports = function renderLayerDetailsItem({props}) {
     'fa-eye-slash': !isVisible
   })
 
-  const settingsClass = classnames('collapsible', {
-    'is-collapsed': !showSettings,
+  const settingsClass = classnames('shrink', {
+    'mxht0': !showSettings,
     'mxht5': showSettings
   })
 

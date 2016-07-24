@@ -39,6 +39,7 @@
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "jsdom": "^9.4.1",
+    "markdown-loader": "^0.1.7",
     "nyc": "^7.0.0",
     "postcss-cssnext": "^2.7.0",
     "postcss-import": "^8.1.2",

@@ -3,7 +3,16 @@
 
 const {h} = require('deku')
 
-module.exports = function renderTopNav() {
+module.exports = function renderTopNav({props}) {
+  const {openAbout} = props
+
+  const handleAboutClick = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    openAbout(true)
+  }
+
   return h('header', {
     class: 'mb3 w-100 bg-white-90 app-dark flex items-center fixed z-1'
   }, [
@@ -13,7 +22,11 @@ module.exports = function renderTopNav() {
       h('span', {class: 'f4 fw3 v-base'}, ['viewer'])
     ]),
     h('nav', {class: 'fr lh-copy f4'}, [
-      h('a', {href: '#', class: 'border-box pa3 no-underline link app-dark dim'}, ['about'])
+      h('a', {
+        href: '#',
+        class: 'border-box pa3 no-underline link app-dark dim',
+        onClick: handleAboutClick
+      }, ['about'])
     ])
   ])
 }

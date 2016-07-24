@@ -88,7 +88,7 @@ test('it should have a Layers component that wraps Layer elements', (t) => {
 
   // ensure the element has the proper aspect ratio
   t.is(element.getAttribute('style'), 'padding-bottom: 75%')
-  hasClass(t, element, 'relative', 'w-100', 'relative')
+  hasClass(t, element, 'aspect-ratio', 'w-100')
 })
 
 test('it should handle an empty viewbox', (t) => {

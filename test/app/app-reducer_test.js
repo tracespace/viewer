@@ -14,6 +14,7 @@ const {
 
 const EXPECTED_INITIAL_STATE = {
   view: 'layers',
+  aboutIsOpen: false,
   panZoom: {
     layers: {panStart: null, scale: 1, x: 0, y: 0},
     board: {panStart: null, scale: 1, x: 0, y: 0}
@@ -23,6 +24,7 @@ const EXPECTED_INITIAL_STATE = {
 
 const PAN_ZOOM_TEST_STATE = {
   view: 'layers',
+  aboutIsOpen: false,
   panZoom: {
     layers: {panStart: null, scale: 0.5, x: 0.5, y: 0.5},
     board: {panStart: null, scale: 0.5, x: 0.5, y: 0.5}
@@ -251,4 +253,16 @@ test('it shoud be able to handle a TOGGLE_LAYER_SETTINGS action', (t) => {
 
   state = reducer(state, toggleAction)
   t.deepEqual(state.layers, {foo: {showSettings: false}})
+})
+
+test('should be able to handle a OPEN_ABOUT action', (t) => {
+  const openAbout = {type: action.OPEN_ABOUT, open: true}
+  const closeAbout = {type: action.OPEN_ABOUT, open: false}
+  let state = EXPECTED_INITIAL_STATE
+
+  state = reducer(state, openAbout)
+  t.true(state.aboutIsOpen)
+
+  state = reducer(state, closeAbout)
+  t.false(state.aboutIsOpen)
 })

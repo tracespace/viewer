@@ -15,7 +15,7 @@ module.exports = function renderGerberInput({props, path}) {
 
     h('label', {
       for: path,
-      class: 'pointer btn db w-auto tc border-box f3 dim app-bg-brand near-white'
+      class: 'pointer db w-auto tc border-box f3 dim app-bg-brand near-white'
     }, ['+'])
   ])
 }

@@ -20,7 +20,7 @@ body {
   font-family: 'Open Sans', Helvetica, sans-serif;
 }
 
-button[disabled],
+[disabled],
 .disabled {
   opacity: 0.75;
   cursor: default;
@@ -28,6 +28,10 @@ button[disabled],
 }
 
 /* cursors */
+
+.cursor-auto {
+  cursor: auto;
+}
 
 .grab {
   cursor: move;
@@ -84,16 +88,28 @@ button[disabled],
   width: calc(100% / 3);
 }
 
+.w7 {
+  width: 48rem;
+}
+
+.mw0 {
+  max-width: 0;
+}
+
 .mxht5 {
   max-height: 16rem;
 }
 
-.is-collapsed {
+.mxht0 {
   max-height: 0;
 }
 
-.collapsible {
-  transition: max-height 0.3s linear;
+.shrink-width {
+  max-height: 0;
+}
+
+.shrink {
+  transition: max-height 0.3s linear, max-width 0.3s linear;
   overflow: hidden;
 }
 
