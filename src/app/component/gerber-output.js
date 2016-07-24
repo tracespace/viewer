@@ -34,7 +34,7 @@ module.exports = function renderGerberOutput({props}) {
 
   return h('output', {class: 'fx fx-d-c bg-white-90 clickable max-app-ht'}, [
     h('ol', {
-      class: 'list ma0 ph0 pv2 fx-1-1 overflow-scroll'
+      class: 'list ma0 ph0 pv2 fx-1-1 overflow-y-auto'
     }, children),
     h('p', {class: 'ma0 pa1 tc fx-0-0'}, [`${children.length} files`]),
     h('svg', {class: 'clip'}, [
