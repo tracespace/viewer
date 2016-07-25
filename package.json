@@ -63,7 +63,7 @@
     "lodash.set": "^4.2.0",
     "lodash.uniqueid": "^4.0.0",
     "lodash.without": "^4.2.0",
-    "pcb-stackup-core": "^1.0.0",
+    "pcb-stackup-core": "github:tracespace/pcb-stackup-core#ae7af126efb1d44559dddfa96292773f4ab961ec",
     "raf": "^3.2.0",
     "randomcolor": "^0.4.4",
     "redux": "^3.5.2",
