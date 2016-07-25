@@ -4,7 +4,7 @@ const {create, loader, plugin} = require('./config')
 
 const plugins = [
   plugin.prodEnv,
-  plugin.occurence,
+  plugin.occurrence,
   plugin.dedupe,
   plugin.uglifyJs,
   plugin.extractCss

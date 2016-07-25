@@ -49,7 +49,7 @@ module.exports = {
 
   plugin: {
     prodEnv: () => new webpack.DefinePlugin(PROD_PLUGIN_OPTS),
-    occurence: () => new webpack.optimize.OccurrenceOrderPlugin(),
+    occurrence: () => new webpack.optimize.OccurrenceOrderPlugin(),
     dedupe: () => new webpack.optimize.DedupePlugin(),
     uglifyJs: () => new webpack.optimize.UglifyJsPlugin(),
     extractCss: () => new ExtractTextPlugin(CSS_OUT),
