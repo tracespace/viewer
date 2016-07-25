@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+node_js:
+- '6'
+script: npm test && npm run build
+after_success: npm run coverage:ci
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: npm run deploy
+  on:
+    repo: tracespace/viewer
+    tags: true
+    all_branches: true
+env:
+  global:
+    secure: M/MgaJEOmT7Vg8p2MAiNKzGpAPgNZJtUKHEGcv6vm55TfXQ+7BwZYjr2xU+A+LvqMSU1aQEZWnX7TeD94YZExmEIptrgz9Q1D3E4UXPEMY3ojJp9jRnuJQghe6TzBV62ERrAK+aYpb2+ONHfIfmV54+gSj3aT/kTzQeR5Uv83yItZJ1WhaDQgvUTbMiORt+6yQl8GE0uG6VAam0uPQ4e6xdFVQLA2uVXKwsDDkBuMydhDFCT8CUgPE2dvTu+WU5d00mmP56AmUbncVvw3E3GfhYMW+CaqsWiNb3cpNwcb/afiUTf48fal8oAUYvPJtecydQ9b4fCtqTHpUCYoch/dcaeiM/cLKC4CSYvgxAyRybDxsCQJlixgT7YLf9fETnKvTCDz9sz5MzZmBGtVgGe4CjnGH3aeiE7lwlEaHui/dnHlz6XLB+FucUbClNxCcnGvA3uB50lrAzkj9jxBnvAnS+sljTK/AAz1nu/8GHZK8xOlOEmEWdVGNgPPmOzCF1t0EsB5gRURLBWGGAQXferB/dqnTRyjKI/H/0cUsYNHdMv1G4sJB1I3weuYtZMbkVqqycVP0TLKG0/5a/TDhZgOpd05Q10fjdRrC/wU7guNINHV8Qes08Bx2kcQk55GC/R42edasWZ89JrR3NvaUesNsR33CZGMoAzpcQ3uOwXTUA=

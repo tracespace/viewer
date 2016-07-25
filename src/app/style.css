@@ -1,0 +1,45 @@
+/* app specific style */
+
+:root {
+  --background-color: #ddd;
+  --brand-color: #3cc;
+  --dark-color: #333;
+  --accent-color: #F18F01;
+}
+
+/* app window height minus nav-bar and margins */
+.app-ht {
+  height: calc(100% - 6rem);
+}
+
+.app-max-ht {
+  max-height: calc(100% - 6rem);
+}
+
+/* margin past the nav */
+
+.app-mt3-past-nav {
+  margin-top: 5rem;
+}
+
+/* app colors */
+
+.app-bg {
+  background-color: var(--background-color);
+}
+
+.app-brand {
+  color: var(--brand-color);
+}
+
+.app-bg-brand {
+  background-color: var(--brand-color);
+}
+
+.app-dark {
+  color: var(--dark-color);
+}
+
+.app-bg-dark {
+  background-color: var(--dark-color);
+}

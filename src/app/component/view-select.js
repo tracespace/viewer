@@ -7,7 +7,7 @@ const classnames = require('classnames')
 const renderViewSelectButton = function({props}) {
   const {name, view, switchView} = props
   const isSelected = name === view
-  const classNames = classnames('btn dib w-50 f5 link brand-2 tc pv1', {
+  const classNames = classnames('dib w-50 f5 link app-dark tc pv1', {
     'bg-black-20': !isSelected,
     dim: !isSelected,
     disabled: isSelected
@@ -23,7 +23,7 @@ const renderViewSelectButton = function({props}) {
 module.exports = function renderViewSelect({props}) {
   const {view, switchView} = props
 
-  return h('div', {class: 'bg-white-90 clickable'}, [
+  return h('div', {class: 'bg-white-90 click'}, [
     h(renderViewSelectButton, {name: 'layers', view, switchView}),
     h(renderViewSelectButton, {name: 'board', view, switchView})
   ])

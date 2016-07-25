@@ -5,8 +5,8 @@ const {h} = require('deku')
 const {getAllTypes, getFullName} = require('whats-that-gerber')
 const classnames = require('classnames')
 
-const Checkbox = require('../../input/checkbox')
-const Select = require('../../input/select')
+const Checkbox = require('./input/checkbox')
+const Select = require('./input/select')
 
 const ALL_LAYER_OPTIONS = getAllTypes().map((type) => {
   return {value: type, title: getFullName(type)}
@@ -29,10 +29,10 @@ const PlacesSelect = {
       }
     })
 
-    return h('div', {class: 'ph2 striped--brand-light'}, [
-      h('span', {class: 'fw9'}, [
-        'coordinate places',
-        h('span', {class: 'fa fa-angle-right mh1'})
+    return h('div', {class: 'flex items-center ph2 striped--brand-light'}, [
+      h('span', {class: 'flex items-center w-50 cf fw6'}, [
+        h('span', {class: 'mr-auto'}, ['coordinate places']),
+        h('span', {class: 'fa fa-angle-right mh2'})
       ]),
       numberInput('places[0]', places[0]),
       h('span', {class: 'fw9 mh2'}, ['.']),
@@ -123,7 +123,7 @@ const ColorPicker = {
     const {color, onChange} = props
 
     return h('label', {
-      class: 'h2 w2 fx-0-0 btn pointer',
+      class: 'h2 w2 flex-none pointer',
       style: `background-color: ${color}`
     }, [
       h('input', {onChange, id: path, type: 'color', value: color, class: 'clip'})
@@ -146,7 +146,7 @@ module.exports = function renderLayerDetailsItem({props}) {
   const {filename, color, layerType, isVisible, isRendering} = layer
   const name = getFullName(layerType)
 
-  const btnClass = 'pointer btn bn bg-transparent dim'
+  const btnClass = 'pointer bn bg-transparent dim'
   const btnDisabled = isRendering
 
   const visibilityIcon = classnames('fa', {
@@ -154,16 +154,16 @@ module.exports = function renderLayerDetailsItem({props}) {
     'fa-eye-slash': !isVisible
   })
 
-  const settingsClass = classnames('collapsible', {
-    'is-collapsed': !showSettings,
-    'max-h5': showSettings
+  const settingsClass = classnames('shrink', {
+    'mxht0': !showSettings,
+    'mxht5': showSettings
   })
 
   return h('li', {class: 'pv1'}, [
-    h('div', {class: 'ph2 fx fx-ai-c ma0'}, [
+    h('div', {class: 'ph2 flex items-center ma0'}, [
       h(ColorPicker, {color, onChange: setColor}),
       h('span', {class: 'ml2 mr-auto'}, [
-        h('p', {class: 'lh-title ma0 f6 b'}, [name]),
+        h('p', {class: 'lh-title ma0 f6 fw6'}, [name]),
         h('p', {class: 'lh-title ma0 f6'}, [filename])
       ]),
       h('button', {class: btnClass, disabled: btnDisabled, onClick: toggleSettings}, [

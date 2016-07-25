@@ -18,6 +18,7 @@ const NAME = 'app'
 
 const INITIAL_STATE = {
   view: 'layers',
+  aboutIsOpen: false,
   panZoom: {
     layers: {panStart: null, scale: 1, x: 0, y: 0},
     board: {panStart: null, scale: 1, x: 0, y: 0}
@@ -116,10 +117,18 @@ const view = function(state = INITIAL_STATE.view, action) {
   switch (action.type) {
     case appActionType.SWITCH_VIEW:
       return action.view
-
-    default:
-      return state
   }
+
+  return state
+}
+
+const aboutIsOpen = function(state = INITIAL_STATE.aboutIsOpen, action) {
+  switch (action.type) {
+    case appActionType.OPEN_ABOUT:
+      return action.open
+  }
+
+  return state
 }
 
 const panZoom = function(state = INITIAL_STATE.panZoom, action) {
@@ -142,10 +151,9 @@ const panZoom = function(state = INITIAL_STATE.panZoom, action) {
 
     case appActionType.ZOOM_TO:
       return handleZoomTo(state, action)
-
-    default:
-      return state
   }
+
+  return state
 }
 
 const layers = function(state = INITIAL_STATE.layers, action) {
@@ -162,11 +170,10 @@ const layers = function(state = INITIAL_STATE.layers, action) {
       return Object.assign({}, state, {
         [action.id]: {showSettings: !state[action.id].showSettings}
       })
-
-    default:
-      return state
   }
+
+  return state
 }
 
-module.exports = combineReducers({view, panZoom, layers})
+module.exports = combineReducers({view, aboutIsOpen, panZoom, layers})
 module.exports.NAME = NAME

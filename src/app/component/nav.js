@@ -3,17 +3,30 @@
 
 const {h} = require('deku')
 
-module.exports = function renderTopNav() {
+module.exports = function renderTopNav({props}) {
+  const {openAbout} = props
+
+  const handleAboutClick = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    openAbout(true)
+  }
+
   return h('header', {
-    class: 'mb3 w-100 bg-white-90 brand-2 fx fx-ai-c fixed z-1'
+    class: 'mb3 w-100 bg-white-90 app-dark flex items-center fixed z-1'
   }, [
     h('img', {src: '/logo.svg', class: 'h3 w3 pa2 border-box'}),
     h('span', {class: 'mr-auto'}, [
       h('span', {class: 'f4 v-base'}, ['tracespace | ']),
-      h('span', {class: 'f4 fw2 v-base'}, ['viewer'])
+      h('span', {class: 'f4 fw3 v-base'}, ['viewer'])
     ]),
     h('nav', {class: 'fr lh-copy f4'}, [
-      h('a', {href: '#', class: 'border-box pa3 no-underline link brand-2 dim'}, ['about'])
+      h('a', {
+        href: '#',
+        class: 'border-box pa3 no-underline link app-dark dim',
+        onClick: handleAboutClick
+      }, ['about'])
     ])
   ])
 }

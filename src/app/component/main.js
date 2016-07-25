@@ -5,6 +5,7 @@ const {h} = require('deku')
 const set = require('lodash.set')
 
 const Nav = require('./nav')
+const About = require('./about')
 const GerberInput = require('./gerber-input')
 const GerberOutput = require('./gerber-output')
 const ViewSelect = require('./view-select')
@@ -15,7 +16,8 @@ const appAction = require('../action')
 const {
   getSelectedView,
   getSelectedPanZoom,
-  getLayerDisplayStates
+  getLayerDisplayStates,
+  getAboutIsOpen
 } = require('../selector')
 
 const layerAction = require('../../layer/action')
@@ -122,6 +124,9 @@ const handleSetMaskWithOutline = (dispatch) => () => (mask) => {
   dispatch(boardAction.maskWithOutline(mask))
 }
 
+const openAbout = (dispatch) => (open) => {
+  dispatch(appAction.openAbout(open))
+}
 
 module.exports = function renderMain({dispatch, context}) {
   const layers = getLayers(context)
@@ -133,12 +138,19 @@ module.exports = function renderMain({dispatch, context}) {
   const selectedView = getSelectedView(context)
   const selectedPanZoom = getSelectedPanZoom(context)
   const totalViewbox = getTotalViewbox(context)
+  const aboutIsOpen = getAboutIsOpen(context)
+  const dipatchOpenAbout = openAbout(dispatch)
+
   const windowAspect = context.browser.width / context.browser.height
 
   return h('div', {class: 'h-100 '}, [
-    h(Nav, {}),
+    h(Nav, {openAbout: dipatchOpenAbout}),
 
-    h('div', {class: 'w-25 mh3 mt3-past-h3 fixed right-0 max-app-ht z-1 fx fx-d-c'}, [
+    h(About, {isOpen: aboutIsOpen, open: dipatchOpenAbout}),
+
+    h('div', {
+      class: 'fixed right-0 w-25 app-max-ht mh3 app-mt3-past-nav z-1 flex flex-column'
+    }, [
       h(ViewSelect, {view: selectedView, switchView: switchView(dispatch)}),
       h(GerberOutput, {
         layers,
@@ -161,7 +173,7 @@ module.exports = function renderMain({dispatch, context}) {
       h(GerberInput, {addGerber: addGerber(dispatch)})
     ]),
 
-    h('div', {class: 'relative w-100 h-100 overflow-hidden bg-black-10'}, [
+    h('div', {class: 'relative w-100 h-100 overflow-hidden app-bg'}, [
       h(View, {
         view: selectedView,
         panZoom: selectedPanZoom,

@@ -9,7 +9,7 @@ const selector = require('../../src/app/selector')
 const SELECTOR_TEST_STATE_LAYERS = {
   [reducer.NAME]: {
     view: 'layers',
-    windowSize: {width: 1024, height: 768},
+    aboutIsOpen: false,
     panZoom: {
       windowSize: {width: 1024, height: 768},
       layers: {panStart: null, scale: 0.1, x: 0.2, y: 0.3},
@@ -25,6 +25,7 @@ const SELECTOR_TEST_STATE_LAYERS = {
 const SELECTOR_TEST_STATE_BOARD = {
   [reducer.NAME]: {
     view: 'board',
+    aboutIsOpen: false,
     panZoom: {
       windowSize: {width: 1024, height: 768},
       layers: {panStart: null, scale: 0.1, x: 0.2, y: 0.3},
@@ -61,8 +62,8 @@ test('it should be able to get the selected view pan zoom', (t) => {
   t.deepEqual(panZoomBoard, {panStart: null, scale: 0.4, x: 0.6, y: 0.7})
 })
 
-test('it should be able to get the window aspect ratio', (t) => {
-  const aspect = selector.getWindowAspect(SELECTOR_TEST_STATE_LAYERS)
+test('it should be able to get the about open state', (t) => {
+  const aboutIsOpen = selector.getAboutIsOpen(SELECTOR_TEST_STATE_LAYERS)
 
-  t.is(aspect, 1024 / 768)
+  t.false(aboutIsOpen)
 })

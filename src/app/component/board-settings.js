@@ -4,8 +4,8 @@
 const {h, vnode} = require('deku')
 const Color = require('color')
 
-const Select = require('../../input/select')
-const Checkbox = require('../../input/checkbox')
+const Select = require('./input/select')
+const Checkbox = require('./input/checkbox')
 
 const COLOR_OPTIONS = [
   {
@@ -74,12 +74,12 @@ module.exports = function renderBoardSettings({props}) {
     return h(ColorSelect, {name, value, options, onChange})
   })
 
-  return h('div', {class: 'fx-0-0 w-100 clickable f5 pb2 bg-white-90'}, [
+  return h('div', {class: 'flex-none w-100 click f5 lh-copy pb2 bg-white-90'}, [
+    h('div', {}, colorSelects),
     h(Checkbox, {
       name: 'mask with outline',
       checked: board.maskWithOutline,
       onChange: handleSetMaskWithOutline()
-    }),
-    h('div', {}, colorSelects)
+    })
   ])
 }

@@ -11,6 +11,7 @@ const action = module.exports = {
   DISCRETE_PAN: 'app:DISCRETE_PAN',
   ZOOM_TO: 'app:ZOOM_TO',
   TOGGLE_LAYER_SETTINGS: 'app:TOGGLE_LAYER_SETTINGS',
+  OPEN_ABOUT: 'app:OPEN_ABOUT',
 
   switchView(view) {
     return {type: action.SWITCH_VIEW, view}
@@ -46,5 +47,9 @@ const action = module.exports = {
 
   toggleLayerSettings(id) {
     return {type: action.TOGGLE_LAYER_SETTINGS, id}
+  },
+
+  openAbout(open) {
+    return {type: action.OPEN_ABOUT, open}
   }
 }

@@ -84,3 +84,11 @@ test('it should be able to toggle the settings drawer flag', (t) => {
 
   t.deepEqual(result, {type: action.TOGGLE_LAYER_SETTINGS, id: 'foo'})
 })
+
+test('it should be able to open the about drawer', (t) => {
+  const open = action.openAbout(true)
+  const close = action.openAbout(false)
+
+  t.deepEqual(open, {type: action.OPEN_ABOUT, open: true})
+  t.deepEqual(close, {type: action.OPEN_ABOUT, open: false})
+})

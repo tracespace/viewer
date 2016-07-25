@@ -1,4 +1,4 @@
-// tracespace viewer
+// tracespace viewer entry point
 'use strict'
 
 const {createStore, combineReducers, applyMiddleware, compose} = require('redux')
@@ -8,11 +8,15 @@ const throttle = require('redux-throttle')
 const {responsiveStoreEnhancer, responsiveStateReducer} = require('redux-responsive')
 const raf = require('raf')
 
+// load application
 const appReducer = require('./app/reducer')
 const boardReducer = require('./board/reducer')
 const layerReducer = require('./layer/reducer')
 const layerMiddleware = require('./layer/middleware')
 const converter = require('./converter')
+
+// load css
+require('./index.css')
 
 const reducer = combineReducers({
   browser: responsiveStateReducer,

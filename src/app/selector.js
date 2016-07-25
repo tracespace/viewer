@@ -8,14 +8,7 @@ const {NAME} = require('./reducer')
 const getPanZoom = (state) => state[NAME].panZoom
 const getLayerDisplayStates = (state) => state[NAME].layers
 const getSelectedView = (state) => state[NAME].view
-
-const getWindowSize = createSelector(
-  getPanZoom,
-  (panZoom) => panZoom.windowSize)
-
-const getWindowAspect = createSelector(
-  getWindowSize,
-  (size) => size.width / size.height)
+const getAboutIsOpen = (state) => state[NAME].aboutIsOpen
 
 const getSelectedPanZoom = createSelector(
   getSelectedView,
@@ -26,5 +19,5 @@ module.exports = {
   getLayerDisplayStates,
   getSelectedView,
   getSelectedPanZoom,
-  getWindowAspect
+  getAboutIsOpen
 }
