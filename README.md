@@ -44,4 +44,10 @@ Nothing fancy here, just npm scripts. See [package.json](https://github.com/trac
 * `$ npm start` - starts an HMR dev server at [localhost:8080](http://localhost:8080)
 * `$ npm test` - run tests
 * `$ npm run test:watch` - run tests on code changes
-* `$ npm run deploy` - builds and deploys the site to GitHub pages (credentials required)
+
+### deploying
+
+The site is deployed automatically by Travis if the commit is tagged (and tests pass). To deploy:
+
+1. `$ npm version ...` - Use the npm version command to bump the version and tag the commit
+2. `$ git push --tags` - Push the tag to trigger a build
