@@ -23,24 +23,24 @@ const CloseButton = ({props}) => {
 
 module.exports = function renderAbout({props}) {
   const {isOpen, open} = props
-  const modalClassNames = classnames(
+  const classNames = classnames(
     'fixed right-0 z-2',
     'w-100 h-100 shrink',
     'pointer',
     (!isOpen) ? 'mw0' : 'mw-100')
 
   const handleClose = (event) => {
+    if (event.target !== event.currentTarget) {
+      return
+    }
+
     event.stopPropagation()
     event.preventDefault()
 
-    if (event.target === event.currentTarget) {
-      open(false)
-    }
+    open(false)
   }
-  return h('div', {
-    class: modalClassNames,
-    onClick: handleClose
-  }, [
+
+  return h('div', {class: classNames, onClick: handleClose}, [
     h('div', {class: 'w7 h-100 fr bg-white pl3 overflow-auto cursor-auto'}, [
       h('div', {innerHTML: content}),
       h(CloseButton, {isOpen, onClick: handleClose})
