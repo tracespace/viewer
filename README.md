@@ -1,6 +1,6 @@
 # tracespace viewer (beta)
 
-[![GitHub stars](https://img.shields.io/github/stars/tracespace/viewer.svg?style=flat-square&label=stars&maxAge=2592000)](https://github.com/tracespace/viewer)
+[![GitHub stars](https://img.shields.io/github/stars/tracespace/viewer.svg?style=flat-square&label=%E2%AD%90&maxAge=2592000)](https://github.com/tracespace/viewer)
 [![GitHub issues](https://img.shields.io/github/issues/tracespace/viewer.svg?style=flat-square&maxAge=2592000)](https://github.com/tracespace/viewer/issues)
 [![Travis](https://img.shields.io/travis/tracespace/viewer/master.svg?style=flat-square)](https://travis-ci.org/tracespace/viewer)
 [![Coveralls](https://img.shields.io/coveralls/tracespace/viewer/master.svg?style=flat-square)](https://coveralls.io/github/tracespace/viewer)
