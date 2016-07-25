@@ -1,17 +1,15 @@
 # tracespace viewer (beta)
 
-[![GitHub stars](https://img.shields.io/github/stars/tracespace/viewer.svg?style=social&label=Star&maxAge=2592000?style=flat-square)](https://github.com/tracespace/viewer)
-[![GitHub issues](https://img.shields.io/github/issues/tracespace/viewer.svg?maxAge=2592000?style=flat-square)](https://github.com/tracespace/viewer/issues)
-[![Travis](https://img.shields.io/travis/tracespace/viewer.svg?style=flat-square)](https://travis-ci.org/tracespace/viewer)
-[![Coveralls](https://img.shields.io/coveralls/tracespace/viewer.svg?style=flat-square)](https://coveralls.io/github/tracespace/viewer)
+[![GitHub stars](https://img.shields.io/github/stars/tracespace/viewer.svg?style=flat-square&label=stars&maxAge=2592000)](https://github.com/tracespace/viewer)
+[![GitHub issues](https://img.shields.io/github/issues/tracespace/viewer.svg?style=flat-square&maxAge=2592000)](https://github.com/tracespace/viewer/issues)
+[![Travis](https://img.shields.io/travis/tracespace/viewer/master.svg?style=flat-square)](https://travis-ci.org/tracespace/viewer)
+[![Coveralls](https://img.shields.io/coveralls/tracespace/viewer/master.svg?style=flat-square)](https://coveralls.io/github/tracespace/viewer)
 [![David](https://img.shields.io/david/tracespace/viewer.svg?style=flat-square)](https://david-dm.org/tracespace/viewer)
 [![David devDependences](https://img.shields.io/david/dev/tracespace/viewer.svg?style=flat-square)](https://david-dm.org/tracespace/viewer#info=devDependencies)
 
 Probably the best printed circuit board viewer on the internet
 
 <http://viewer.tracespace.io>
-
-<https://github.com/tracespace/viewer>
 
 ## about
 
