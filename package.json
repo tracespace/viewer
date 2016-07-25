@@ -7,7 +7,7 @@
     "start": "node server.js",
     "prebuild": "rm -f public/*.js public/*.map public/*.css public/stats.html",
     "build": "webpack",
-    "lint": "eslint 'src/**/*.js' 'test/**/*.js'",
+    "lint": "eslint '*.js' 'config/*.js' 'src/**/*.js' 'test/**/*.js'",
     "test": "nyc --all --include='src/**/*.js' ava --verbose",
     "test:watch": "ava --watch",
     "posttest": "npm run lint",
