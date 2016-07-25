@@ -1,0 +1,21 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.1"
+  stroke-width="0"
+  color="#3cc"
+  width="1024px" height="1024px" viewBox="-10 -10 110 110">
+
+  <defs>
+    <path id="logo-top-path" stroke-width="30" d="M 15 65 V 35 L 35 15 H 65"/>
+    <path id="logo-bottom-path" stroke-width="20" d="M 40 80 H 63 L 80 63 V 40"/>
+  </defs>
+
+  <g fill="none" stroke="currentColor">
+    <!-- <rect fill="white" x="-10" y="-10" width="100%" height="100%"/> -->
+    <use xlink:href="#logo-top-path"/>
+    <use xlink:href="#logo-bottom-path"/>
+    <circle cx="50" cy="50" r="10" fill="currentColor"/>
+    <polygon fill="currentColor" points=""/>
+  </g>
+</svg>
