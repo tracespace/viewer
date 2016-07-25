@@ -1,6 +1,6 @@
 {
   "name": "tracespace-viewer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "client-side PCB viewer",
   "main": "src/index.js",
   "scripts": {
