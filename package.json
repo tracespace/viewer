@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node server.js",
-    "prebuild": "rm -f public/*.js public/*.map public/*.css",
+    "prebuild": "rm -f public/*.js public/*.map public/*.css public/stats.html",
     "build": "webpack",
     "lint": "eslint 'src/**/*.js' 'test/**/*.js'",
     "test": "nyc --all --include='src/**/*.js' ava --verbose",
@@ -58,6 +58,7 @@
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0",
+    "webpack-visualizer-plugin": "^0.1.5",
     "worker-loader": "^0.7.0"
   },
   "dependencies": {
